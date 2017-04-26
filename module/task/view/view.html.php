@@ -218,7 +218,7 @@
 
           <tr>
             <th><?php echo $lang->task->level;?></th>
-            <td><?php echo $task->level;?></td>
+            <td><?php echo $task->levelScore;?></td>
           </tr>
           <tr>
             <th><?php echo $lang->task->days;?></th>
