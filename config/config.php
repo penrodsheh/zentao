@@ -150,6 +150,7 @@ define('TABLE_RELEASE',       '`' . $config->db->prefix . 'release`');
 
 define('TABLE_PROJECT',       '`' . $config->db->prefix . 'project`');
 define('TABLE_TASK',          '`' . $config->db->prefix . 'task`');
+define('TABLE_LEVEL',          '`' . $config->db->prefix . 'level`');
 define('TABLE_TEAM',          '`' . $config->db->prefix . 'team`');
 define('TABLE_PROJECTPRODUCT','`' . $config->db->prefix . 'projectproduct`');
 define('TABLE_PROJECTSTORY',  '`' . $config->db->prefix . 'projectstory`');
