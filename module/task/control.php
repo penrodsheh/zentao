@@ -135,6 +135,7 @@ class task extends control
         $stories          = $this->story->getProjectStoryPairs($projectID);
         $members          = $this->project->getTeamMemberPairs($projectID, 'nodeleted');
         $moduleOptionMenu = $this->tree->getTaskOptionMenu($projectID);
+        $levels           = $this->task->getLevels();
 
         $title      = $project->name . $this->lang->colon . $this->lang->task->create;
         $position[] = html::a($taskLink, $project->name);
@@ -153,6 +154,7 @@ class task extends control
         $this->view->users            = $users;
         $this->view->stories          = $stories;
         $this->view->members          = $members;
+        $this->view->levels          = $levels;
         $this->view->moduleOptionMenu = $moduleOptionMenu;
         $this->display();
     }

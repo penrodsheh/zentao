@@ -13,6 +13,7 @@ $config->task->edit->requiredFields        = $config->task->create->requiredFiel
 $config->task->start->requiredFields       = 'estimate';
 $config->task->finish->requiredFields      = 'consumed';
 $config->task->activate->requiredFields    = 'left';
+$config->task->weekend                     = 2;
 
 $config->task->editor = new stdclass();
 $config->task->editor->create   = array('id' => 'desc', 'tools' => 'simpleTools');
@@ -37,14 +38,14 @@ $config->task->exportFields = '
     closedBy, closedDate, closedReason,
     lastEditedBy, lastEditedDate,files
     ';
-$config->task->customCreateFields      = 'story,estStarted,deadline,mailto,pri,estimate'; 
+$config->task->customCreateFields      = 'story,estStarted,deadline,mailto,pri,estimate,score';
 $config->task->customBatchCreateFields = 'module,story,assignedTo,estimate,estStarted,deadline,desc,pri'; 
 $config->task->customBatchEditFields   = 'module,assignedTo,status,pri,estimate,record,left,estStarted,deadline,finishedBy,canceledBy,closedBy,closedReason';
 
 $config->task->custom = new stdclass();
 $config->task->custom->createFields      = $config->task->customCreateFields;
 $config->task->custom->batchCreateFields = 'module,story,assignedTo,estimate,desc,pri';
-$config->task->custom->batchEditFields   = 'module,assignedTo,status,pri,estimate,record,left,finishedBy,closedBy,closedReason';
+$config->task->custom->batchEditFields   = 'module,assignedTo,status,pri,estimate,record,left,realScore,finishedBy,closedBy,closedReason';
 
 $config->task->datatable = new stdclass();
 $config->task->datatable->defaultField = array('id', 'pri', 'name', 'status', 'deadline', 'openedDate', 'assignedTo', 'finishedBy', 'finishedDate', 'estimate', 'consumed', 'left', 'story', 'actions');

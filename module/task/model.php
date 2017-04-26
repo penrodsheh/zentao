@@ -31,6 +31,7 @@ class taskModel extends model
             ->setDefault('estStarted', '0000-00-00')
             ->setDefault('deadline', '0000-00-00')
             ->setDefault('status', 'wait')
+            ->setIF(count($this->post->level), 'level', $this->post->level[0])
             ->setIF($this->post->estimate != false, 'left', $this->post->estimate)
             ->setIF($this->post->story != false, 'storyVersion', $this->loadModel('story')->getVersion($this->post->story))
             ->setDefault('openedBy',   $this->app->user->account)
@@ -1535,6 +1536,14 @@ class taskModel extends model
             $data->name = $this->lang->task->statusList[$status];
         }
         return $datas;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLevels()
+    {
+        return $this->dao->select('id, score')->from('zt_level')->fetchPairs();
     }
 
     /**

@@ -40,14 +40,17 @@ foreach(explode(',', $showFields) as $field)
         <th <?php if(count($visibleFields) > 10) echo "class='w-150px'"?>>   <?php echo $lang->task->name?> <span class='required'></span></th>
         <th class='w-150px<?php echo zget($visibleFields, 'module', ' hidden')?>'><?php echo $lang->task->module?></th>
         <th class='w-150px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->task->assignedTo;?></th>
-        <th class='w-80px'><?php echo $lang->typeAB;?> <span class='required'></span></th>
-        <th class='w-100px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
-        <th class='w-70px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->task->pri;?></th>
+        <th class='w-60px'><?php echo $lang->typeAB;?> <span class='required'></span></th>
+        <th class='w-80px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
+        <th class='w-50px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->task->pri;?></th>
         <th class='w-40px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->task->estimateAB;?></th>
         <th class='w-50px<?php echo zget($visibleFields, 'record', ' hidden')?>'><?php echo $lang->task->consumedThisTime?></th>
         <th class='w-40px<?php echo zget($visibleFields, 'left', ' hidden')?>'><?php echo $lang->task->leftAB?></th>
         <th class='w-90px<?php echo zget($visibleFields, 'estStarted', ' hidden')?>'><?php echo $lang->task->estStarted?></th>
         <th class='w-90px<?php echo zget($visibleFields, 'deadline', ' hidden')?>'><?php echo $lang->task->deadline?></th>
+
+        <th class='w-40px<?php echo zget($visibleFields, 'score', ' hidden')?>'><?php echo $lang->task->score?></th>
+
         <th class='w-100px<?php echo zget($visibleFields, 'finishedBy', ' hidden')?>'><?php echo $lang->task->finishedBy;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'canceledBy', ' hidden')?>'><?php echo $lang->task->canceledBy;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'closedBy', ' hidden')?>'><?php echo $lang->task->closedBy;?></th>
@@ -86,6 +89,9 @@ foreach(explode(',', $showFields) as $field)
         <td <?php echo zget($visibleFields, 'left', "class='hidden'")?>><?php echo html::input("lefts[$taskID]",     $tasks[$taskID]->left, "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'estStarted', "class='hidden'")?>><?php echo html::input("estStarteds[$taskID]",     $tasks[$taskID]->estStarted, "class='form-control text-center form-date'");?></td>
         <td <?php echo zget($visibleFields, 'deadline', "class='hidden'")?>><?php echo html::input("deadlines[$taskID]",     $tasks[$taskID]->deadline, "class='form-control text-center form-date'");?></td>
+
+        <td <?php echo zget($visibleFields, 'score')?>><?php echo html::select("pris[$taskID]",     $priList, $tasks[$taskID]->pri, 'class=form-control');?></td>
+
         <td class='text-left<?php echo zget($visibleFields, 'finishedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("finishedBys[$taskID]", $members, $tasks[$taskID]->finishedBy, "class='form-control chosen'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'canceledBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("canceledBys[$taskID]", $members, $tasks[$taskID]->canceledBy, "class='form-control chosen'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'closedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("closedBys[$taskID]",   $members, $tasks[$taskID]->closedBy, "class='form-control chosen'");?></td>

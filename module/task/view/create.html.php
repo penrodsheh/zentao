@@ -14,6 +14,8 @@
 <?php include '../../common/view/form.html.php';?>
 <?php include '../../common/view/datepicker.html.php';?>
 <?php include '../../common/view/kindeditor.html.php';?>
+<?php js::import($jsRoot . 'misc/date.js');?>
+<?php js::set('weekend', $config->task->weekend);?>
 <div class='container mw-1400px'>
   <div id='titlebar'>
     <div class='heading'>
@@ -25,7 +27,7 @@
     </div>
   </div>
   <form class='form-condensed' method='post' enctype='multipart/form-data' id='dataform' data-type='ajax'>
-    <table class='table table-form'> 
+    <table class='table table-form'>
       <tr>
         <th class='w-100px'><?php echo $lang->task->module;?></th>
         <td id='moduleIdBox' class='w-p25-f'><?php echo html::select('module', $moduleOptionMenu, $task->module, "class='form-control chosen' onchange='setStories(this.value,$project->id)'");?></td>
@@ -88,7 +90,7 @@
               <div class='input-group'>
                 <span class='input-group-addon fix-border br-0'><?php echo $lang->task->pri;?></span>
                 <?php if($hasCustomPri):?>
-                <?php echo html::select('pri', $lang->task->priList, '', "class='form-control'");?> 
+                <?php echo html::select('pri', $lang->task->priList, '', "class='form-control'");?>
                 <?php else: ?>
                 <div class='input-group-btn dropdown-pris'>
                   <button type='button' class='btn dropdown-toggle br-0' data-toggle='dropdown'>
@@ -131,13 +133,13 @@
               <div class='col-table' id='taskPlanCol'>
                 <div class='input-group' id='dataPlanGroup'>
                   <?php if(!$hiddenEstStarted):?>
-                  <?php echo html::input('estStarted', $task->estStarted, "class='form-control form-date' placeholder='{$lang->task->estStarted}'");?>
+                  <?php echo html::input('estStarted', $task->estStarted, "class='form-control form-date' onchange='computeWorkDays()' placeholder='{$lang->task->estStarted}'");?>
                   <?php endif;?>
                   <?php if(!$hiddenEstStarted and !$hiddenDeadline):?>
                   <span class='input-group-addon fix-border'>~</span>
                   <?php endif;?>
                   <?php if(!$hiddenDeadline):?>
-                  <?php echo html::input('deadline', $task->deadline, "class='form-control form-date' placeholder='{$lang->task->deadline}'");?>
+                  <?php echo html::input('deadline', $task->deadline, "class='form-control form-date' onchange='computeWorkDays()' placeholder='{$lang->task->deadline}'");?>
                   <?php endif;?>
                 </div>
               </div>
@@ -157,6 +159,31 @@
         </td>
       </tr>
       <?php endif;?>
+      <tr>
+        <th><?php echo $lang->task->level;?></th>
+        <td id='planAndMailCell' colspan='2' class='<?php if(!$hiddenMailto) echo 'has-mail-col' ?>'>
+            <div class='row-table'>
+                <?php if(!$hiddenEstStarted or !$hiddenDeadline):?>
+                    <div class='col-table' id='scoreRowCol'>
+                        <div class='input-group' id='dataScoreGroup'>
+                            <?php if(!$hiddenEstStarted):?>
+                                <?php echo html::select('level[]', $levels, '1', 'class=form-control onchange="setScore(this.options[this.selectedIndex].text)"');?>
+                            <?php endif;?>
+                            <span class='input-group-addon fix-border'><?php echo $lang->project->days;?></span>
+                            <?php echo html::input('days', '', "class='form-control' placeholder='{$lang->project->day}' maxlength='3' autocomplete='off'");?>
+                            <span class='input-group-addon'><?php echo $lang->project->day;?></span>
+                            <?php if(!$hiddenEstStarted and !$hiddenDeadline):?>
+                                <span class='input-group-addon fix-border'>分值</span>
+                            <?php endif;?>
+                            <?php if(!$hiddenDeadline):?>
+                                <?php echo html::input('score', '', "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                <?php endif;?>
+            </div>
+        </td>
+      </tr>
       <tr>
         <th><?php echo $lang->files;?></th>
         <td colspan='5'><?php echo $this->fetch('file', 'buildform');?></td>
