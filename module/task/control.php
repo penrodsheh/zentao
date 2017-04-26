@@ -291,6 +291,7 @@ class task extends control
         $this->view->stories    = $this->story->getProjectStoryPairs($this->view->project->id);
         $this->view->users      = $this->loadModel('user')->getPairs('nodeleted', "{$this->view->task->openedBy},{$this->view->task->canceledBy},{$this->view->task->closedBy}"); 
         $this->view->modules    = $this->tree->getTaskOptionMenu($this->view->task->project);
+        $this->view->levels     = $this->task->getLevels();
         $this->display();
     }
 

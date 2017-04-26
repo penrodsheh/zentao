@@ -67,3 +67,25 @@ function loadProjectMembers(projectID)
 
 /* empty function. */
 function setPreview(){}
+
+$(document).ready(function() {
+    $("#days").keydown(function (e) {
+        var code = parseInt(e.keyCode);
+        if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
+            return true;
+        } else {
+            return false;
+        }
+    }).keyup(function () {
+        estTaskScore(this.value);
+    })
+
+    $('#score').keydown(function (e) {
+        var code = parseInt(e.keyCode);
+        if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
+            return true;
+        } else {
+            return false;
+        }
+    })
+})

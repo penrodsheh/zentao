@@ -167,16 +167,16 @@
                     <div class='col-table' id='scoreRowCol'>
                         <div class='input-group' id='dataScoreGroup'>
                             <?php if(!$hiddenEstStarted):?>
-                                <?php echo html::select('level[]', $levels, '1', 'class=form-control onchange="setScore(this.options[this.selectedIndex].text)"');?>
+                                <?php echo html::select('level', $levels, '1', 'class=form-control onchange="estTaskScore()"');?>
                             <?php endif;?>
-                            <span class='input-group-addon fix-border'><?php echo $lang->project->days;?></span>
-                            <?php echo html::input('days', '', "class='form-control' placeholder='{$lang->project->day}' maxlength='3' autocomplete='off'");?>
+                            <span class='input-group-addon fix-border'><?php echo $lang->task->days;?></span>
+                            <?php echo html::input('days', '', "class='form-control' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
                             <span class='input-group-addon'><?php echo $lang->project->day;?></span>
                             <?php if(!$hiddenEstStarted and !$hiddenDeadline):?>
-                                <span class='input-group-addon fix-border'>分值</span>
+                                <span class='input-group-addon fix-border'><?php echo $lang->task->score;?></span>
                             <?php endif;?>
                             <?php if(!$hiddenDeadline):?>
-                                <?php echo html::input('score', '', "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?>
+                                <?php echo html::input('score', '', "class='form-control' placeholder='{$lang->task->score}' autocomplete='off'");?>
                             <?php endif;?>
                         </div>
                     </div>

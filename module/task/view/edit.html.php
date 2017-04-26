@@ -17,6 +17,7 @@
 <?php js::set('oldAssignedTo', $task->assignedTo); ?>
 <?php js::set('confirmChangeProject', $lang->task->confirmChangeProject); ?>
 <?php js::set('changeProjectConfirmed', false); ?>
+<?php js::set('weekend', $config->task->weekend);?>
 <form class='form-condensed' method='post' enctype='multipart/form-data' target='hiddenwin' id='dataform'>
 <div id='titlebar'>
   <div class='heading'>
@@ -102,7 +103,7 @@
         <table class='table table-form'> 
           <tr>
             <th class='w-70px'><?php echo $lang->task->estStarted;?></th>
-            <td><?php echo html::input('estStarted', $task->estStarted, "class='form-control form-date'");?></td>
+            <td><?php echo html::input('estStarted', $task->estStarted, "class='form-control form-date' onchange='computeWorkDays()'");?></td>
           </tr>  
           <tr>
             <th><?php echo $lang->task->realStarted;?></th>
@@ -110,8 +111,22 @@
           </tr>  
           <tr>
             <th><?php echo $lang->task->deadline;?></th>
-            <td><?php echo html::input('deadline', $task->deadline, "class='form-control form-date'");?></td>
-          </tr>  
+            <td><?php echo html::input('deadline', $task->deadline, "class='form-control form-date' onchange='computeWorkDays()'");?></td>
+          </tr>
+
+          <tr>
+            <th class='w-70px'><?php echo $lang->task->level;?></th>
+            <td><?php echo html::select('level', $levels, $task->level, 'class=form-control onchange="estTaskScore()"');?></td>
+          </tr>
+          <tr>
+            <th><?php echo $lang->task->days;?></th>
+            <td><?php echo html::input('days', $task->days, "class='form-control' placeholder='{$lang->project->day}' maxlength='3' autocomplete='off'");?></td>
+          </tr>
+          <tr>
+            <th><?php echo $lang->task->score;?></th>
+            <td><?php echo html::input('score', $task->score, "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?></td>
+          </tr>
+
           <tr>
             <th><?php echo $lang->task->estimate;?></th>
             <td><?php echo html::input('estimate', $task->estimate, "class='form-control' autocomplete='off'");?></td>
