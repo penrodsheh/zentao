@@ -214,7 +214,22 @@
             if(isset($task->delay)) printf($lang->task->delayWarning, $task->delay);
             ?>
             </td>
-          </tr>  
+          </tr>
+
+          <tr>
+            <th><?php echo $lang->task->level;?></th>
+            <td><?php echo $task->level;?></td>
+          </tr>
+          <tr>
+            <th><?php echo $lang->task->days;?></th>
+            <td><?php echo $task->days . $lang->project->day;?></td>
+          </tr>
+          <tr>
+            <th><?php echo $lang->task->score;?></th>
+            <td><?php echo $task->score;?></td>
+          </tr>
+
+
           <tr>
             <th><?php echo $lang->task->estimate;?></th>
             <td><?php echo $task->estimate . $lang->workingHour;?></td>

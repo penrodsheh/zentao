@@ -397,6 +397,107 @@ class task extends control
     }
 
     /**
+     * Batch score task.
+     *
+     * @param  int    $projectID
+     * @access public
+     * @return void
+     */
+    public function batchScore($projectID = 0)
+    {
+        if($this->post->names)
+        {
+            $allChanges = $this->task->batchScore();
+
+            if(!empty($allChanges))
+            {
+                foreach($allChanges as $taskID => $changes)
+                {
+                    if(empty($changes)) continue;
+
+                    $actionID = $this->loadModel('action')->create('task', $taskID, 'Edited');
+                    $this->action->logHistory($actionID, $changes);
+                    $this->task->sendmail($taskID, $actionID);
+
+                    $task = $this->task->getById($taskID);
+                    if($task->fromBug != 0)
+                    {
+                        foreach($changes as $change)
+                        {
+                            if($change['field'] == 'status')
+                            {
+                                $confirmURL = $this->createLink('bug', 'view', "id=$task->fromBug");
+                                $cancelURL  = $this->server->HTTP_REFERER;
+                                die(js::confirm(sprintf($this->lang->task->remindBug, $task->fromBug), $confirmURL, $cancelURL, 'parent', 'parent'));
+                            }
+                        }
+                    }
+                }
+            }
+            die(js::locate($this->session->taskList, 'parent'));
+        }
+
+        $taskIDList = $this->post->taskIDList ? $this->post->taskIDList : die(js::locate($this->session->taskList, 'parent'));
+
+        /* The tasks of project. */
+        if($projectID)
+        {
+            $project = $this->project->getById($projectID);
+            $this->project->setMenu($this->project->getPairs(), $project->id);
+
+            /* Set modules and members. */
+            $modules = $this->tree->getTaskOptionMenu($projectID);
+            $modules = array('ditto' => $this->lang->task->ditto) + $modules;
+            $members = $this->project->getTeamMemberPairs($projectID, 'nodeleted');
+            $members = array('' => '', 'ditto' => $this->lang->task->ditto) + $members;
+            $members['closed'] = 'Closed';
+
+            $this->view->title      = $project->name . $this->lang->colon . $this->lang->task->batchEdit;
+            $this->view->position[] = html::a($this->createLink('project', 'browse', "project=$project->id"), $project->name);
+            $this->view->project    = $project;
+            $this->view->modules    = $modules;
+            $this->view->members    = $members;
+        }
+        /* The tasks of my. */
+        else
+        {
+            $this->lang->task->menu = $this->lang->my->menu;
+            $this->lang->set('menugroup.task', 'my');
+            $this->lang->task->menuOrder = $this->lang->my->menuOrder;
+            $this->loadModel('my')->setMenu();
+            $this->view->position[] = html::a($this->createLink('my', 'task'), $this->lang->my->task);
+            $this->view->title      = $this->lang->task->batchEdit;
+            $this->view->users      = $this->loadModel('user')->getPairs('noletter');
+        }
+
+        /* Get edited tasks. */
+        $tasks = $this->dao->select('*')->from(TABLE_TASK)->where('id')->in($taskIDList)->fetchAll('id');
+
+        /* Judge whether the editedTasks is too large and set session. */
+        $countInputVars  = count($tasks) * (count(explode(',', $this->config->task->custom->batchEditFields)) + 3);
+        $showSuhosinInfo = common::judgeSuhosinSetting($countInputVars);
+        if($showSuhosinInfo) $this->view->suhosinInfo = extension_loaded('suhosin') ? sprintf($this->lang->suhosinInfo, $countInputVars) : sprintf($this->lang->maxVarsInfo, $countInputVars);
+
+        /* Set Custom*/
+        foreach(explode(',', $this->config->task->customBatchScoreFields) as $field) $customFields[$field] = $this->lang->task->$field;
+        $this->view->customFields = $customFields;
+        $this->view->showFields   = $this->config->task->custom->batchScoreFields;
+
+        /* Assign. */
+        $this->view->position[]  = $this->lang->task->common;
+        $this->view->position[]  = $this->lang->task->batchEdit;
+        $this->view->projectID   = $projectID;
+        $this->view->priList     = array('0' => '', 'ditto' => $this->lang->task->ditto) + $this->lang->task->priList;
+        $this->view->statusList  = array('' => '',  'ditto' => $this->lang->task->ditto) + $this->lang->task->statusList;
+        $this->view->typeList    = array('' => '',  'ditto' => $this->lang->task->ditto) + $this->lang->task->typeList;
+        $this->view->taskIDList  = $taskIDList;
+        $this->view->tasks       = $tasks;
+        $this->view->projectName = isset($project) ? $project->name : '';
+
+        $this->display();
+    }
+
+    /**
      * Update assign of task 
      *
      * @param  int    $requestID

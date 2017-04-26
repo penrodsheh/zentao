@@ -55,6 +55,7 @@ js::set('browseType', $browseType);
             <div class='table-actions clearfix'>
             <?php 
             $canBatchEdit         = common::hasPriv('task', 'batchEdit');
+            $canBatchScore         = common::hasPriv('task', 'batchScore');
             $canBatchClose        = (common::hasPriv('task', 'batchClose') && strtolower($browseType) != 'closedBy');
             $canBatchChangeModule = common::hasPriv('task', 'batchChangeModule');
             $canBatchAssignTo     = common::hasPriv('task', 'batchAssignTo');
@@ -72,6 +73,10 @@ js::set('browseType', $browseType);
                 $actionLink = $this->createLink('task', 'batchClose');
                 $misc = $canBatchClose ? "onclick=\"setFormAction('$actionLink','hiddenwin')\"" : "class='disabled'";
                 echo "<li>" . html::a('#', $lang->close, '', $misc) . "</li>";
+
+                $actionLink = $this->createLink('task', 'batchScore', "projectID=$projectID");
+                $misc = $canBatchScore ? "onclick=\"setFormAction('$actionLink')\"" : "disabled='disabled'";
+                echo "<li>" . html::a('#', $lang->project->realScore, '', $misc) . "</li>";
 
                 if($canBatchChangeModule)
                 {

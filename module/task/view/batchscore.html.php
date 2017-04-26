@@ -16,7 +16,7 @@
 <div id='titlebar'>
   <div class='heading'>
     <span class='prefix'><?php echo html::icon($lang->icons['task']);?></span>
-    <strong><small class='text-muted'><?php echo html::icon($lang->icons['batchEdit']);?></small> <?php echo $lang->task->batchEdit . ' ' . $lang->task->common;?></strong>
+    <strong><small class='text-muted'><?php echo html::icon($lang->icons['batchScore']);?></small> <?php echo $lang->task->batchScore . ' ' . $lang->task->common;?></strong>
     <div class='actions'>
       <button type="button" class="btn btn-default" data-toggle="customModal"><i class='icon icon-cog'></i> </button>
     </div>
@@ -32,16 +32,16 @@ foreach(explode(',', $showFields) as $field)
     if($field)$visibleFields[$field] = '';
 }
 ?>
-<form class='form-condensed' method='post' target='hiddenwin' action="<?php echo inLink('batchEdit', "projectID={$projectID}")?>">
+<form class='form-condensed' method='post' target='hiddenwin' action="<?php echo inLink('batchScore', "projectID={$projectID}")?>">
   <table class='table table-form table-fixed with-border'>
     <thead>
       <tr>
         <th class='w-50px'><?php echo $lang->idAB;?></th>
-        <th <?php if(count($visibleFields) > 10) echo "class='w-150px'"?>>   <?php echo $lang->task->name?> <span class='required'></span></th>
+        <th <?php if(count($visibleFields) > 10) echo "class='w-200px'"?>>   <?php echo $lang->task->name?> <span class='required'></span></th>
         <th class='w-150px<?php echo zget($visibleFields, 'module', ' hidden')?>'><?php echo $lang->task->module?></th>
-        <th class='w-150px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->task->assignedTo;?></th>
+        <th class='w-100px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->task->assignedTo;?></th>
         <th class='w-80px'><?php echo $lang->typeAB;?> <span class='required'></span></th>
-        <th class='w-100px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
+        <th class='w-80px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
         <th class='w-70px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->task->pri;?></th>
         <th class='w-40px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->task->estimateAB;?></th>
         <th class='w-50px<?php echo zget($visibleFields, 'record', ' hidden')?>'><?php echo $lang->task->consumedThisTime?></th>
@@ -53,6 +53,7 @@ foreach(explode(',', $showFields) as $field)
         <th class='w-100px<?php echo zget($visibleFields, 'closedBy', ' hidden')?>'><?php echo $lang->task->closedBy;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'closedReason', ' hidden')?>'><?php echo $lang->task->closedReason;?></th>
         <th class='w-80px<?php echo zget($visibleFields, 'score', ' hidden')?>'><?php echo $lang->task->score;?></th>
+        <th class='w-80px<?php echo zget($visibleFields, 'realScore', ' hidden')?>'><?php echo $lang->task->realScore;?></th>
       </tr>
     </thead>
     <tbody>
@@ -77,7 +78,7 @@ foreach(explode(',', $showFields) as $field)
           <?php echo html::input("names[$taskID]", $tasks[$taskID]->name, "class='form-control' autocomplete='off'");?>
           </div>
         </td>
-        <td class='text-left<?php echo zget($visibleFields, 'module', ' hidden')?>' style='overflow:visible'><?php echo html::select("modules[$taskID]",     $modules, $tasks[$taskID]->module, "class='form-control chosen'")?></td>
+        <td class='text-left<?php echo zget($visibleFields, 'module', ' hidden')?>' style='overflow:visible'><?php echo html::select("modules[$taskID]", $modules, $tasks[$taskID]->module, "class='form-control chosen'")?></td>
         <td class='text-left<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>' style='overflow:visible'><?php echo html::select("assignedTos[$taskID]", $members, $tasks[$taskID]->assignedTo, "class='form-control chosen'");?></td>
         <td><?php echo html::select("types[$taskID]",    $typeList, $tasks[$taskID]->type, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'status', "class='hidden'")?>><?php echo html::select("statuses[$taskID]", $statusList, $tasks[$taskID]->status, 'class=form-control');?></td>
@@ -92,6 +93,7 @@ foreach(explode(',', $showFields) as $field)
         <td class='text-left<?php echo zget($visibleFields, 'closedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("closedBys[$taskID]",   $members, $tasks[$taskID]->closedBy, "class='form-control chosen'");?></td>
         <td <?php echo zget($visibleFields, 'closedReason', "class='hidden'")?>><?php echo html::select("closedReasons[$taskID]", $lang->task->reasonList, $tasks[$taskID]->closedReason, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'score', "class='hidden'")?>><?php echo html::input("scores[$taskID]", $tasks[$taskID]->score, "maxlength='8' class='form-control text-center' autocomplete='off'");?></td>
+        <td <?php echo zget($visibleFields, 'realScore', "class='hidden'")?>><?php echo html::input("realScores[$taskID]", $tasks[$taskID]->realScore, "maxlength='8' class='form-control text-center' autocomplete='off'");?></td>
       </tr>
       <?php endforeach;?>
     </tbody>
@@ -101,6 +103,6 @@ foreach(explode(',', $showFields) as $field)
   </table>
 </form>
 <?php endif;?>
-<?php $customLink = $this->createLink('custom', 'ajaxSaveCustomFields', 'module=task&section=custom&key=batchEditFields')?>
+<?php $customLink = $this->createLink('custom', 'ajaxSaveCustomFields', 'module=task&section=custom&key=batchScoreFields')?>
 <?php include '../../common/view/customfield.html.php';?>
 <?php include '../../common/view/footer.html.php';?>

@@ -43,7 +43,7 @@
           <th class='w-100px {sorter:false}'><?php common::printOrderLink('story', $orderBy, $vars, $lang->task->story); ?></th>
           <?php $columns++; ?>
           <?php endif;?>
-
+          <th class='w-80px' title='<?php echo $lang->task->score?>'><?php echo $lang->task->score;?></th>
           <th class='w-150px {sorter:false}'><?php echo $lang->actions;?></th>
         </tr>
       </thead>
@@ -108,6 +108,7 @@
             echo '</td>';
         }
         ?>
+        <td><?php echo $task->score;?></td>
         <td class='text-right'>
         <?php
         common::printIcon('task', 'assignTo', "projectID=$task->project&taskID=$task->id", $task, 'list', '', '', 'iframe', true);
