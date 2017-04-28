@@ -313,6 +313,8 @@ class taskModel extends model
             $prev['finishedBy'] = $data->finishedBys[$taskID];
             $prev['canceledBy'] = $data->canceledBys[$taskID];
             $prev['closedBy']   = $data->closedBys[$taskID];
+            $prev['level']      = $data->levels[$taskID];
+            $prev['days']       = $data->dayses[$taskID];
             $prev['score']      = $data->scores[$taskID];
         }
 
@@ -344,6 +346,8 @@ class taskModel extends model
             $task->lastEditedBy   = $this->app->user->account;
             $task->lastEditedDate = $now;
             $task->consumed       = $oldTask->consumed;
+            $task->level          = $data->levels[$taskID];
+            $task->days           = $data->dayses[$taskID];
             $task->score          = $data->scores[$taskID];
 
             if($data->consumeds[$taskID])
@@ -418,7 +422,8 @@ class taskModel extends model
                 ->checkIF($task->status == 'closed', 'closedReason', 'notempty')
                 ->batchCheckIF($task->closedReason == 'cancel', 'finishedBy, finishedDate', 'empty')
 
-                ->checkIF($task->score     != false, 'left',     'int')
+                ->checkIF($task->days  != false, 'left',     'int')
+                ->checkIF($task->score != false, 'left',     'int')
 
                 ->where('id')->eq((int)$taskID)
                 ->exec();

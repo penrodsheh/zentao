@@ -154,7 +154,7 @@ class task extends control
         $this->view->users            = $users;
         $this->view->stories          = $stories;
         $this->view->members          = $members;
-        $this->view->levels          = $levels;
+        $this->view->levels           = $levels;
         $this->view->moduleOptionMenu = $moduleOptionMenu;
         $this->display();
     }
@@ -392,7 +392,7 @@ class task extends control
         $this->view->taskIDList  = $taskIDList;
         $this->view->tasks       = $tasks;
         $this->view->projectName = isset($project) ? $project->name : '';
-
+        $this->view->levels      = $this->loadModel('task')->getLevels();
         $this->display();
     }
 

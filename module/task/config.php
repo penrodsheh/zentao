@@ -40,7 +40,7 @@ $config->task->exportFields = '
     ';
 $config->task->customCreateFields      = 'story,estStarted,deadline,mailto,pri,estimate,score';
 $config->task->customBatchCreateFields = 'module,story,assignedTo,estimate,estStarted,deadline,desc,pri'; 
-$config->task->customBatchEditFields   = 'module,assignedTo,status,pri,estimate,record,left,estStarted,deadline,finishedBy,canceledBy,closedBy,closedReason,score';
+$config->task->customBatchEditFields   = 'module,assignedTo,status,pri,estimate,record,left,estStarted,deadline,level,days,finishedBy,canceledBy,closedBy,closedReason,score';
 $config->task->customBatchScoreFields  = 'module,assignedTo,status,pri,estimate,record,left,estStarted,deadline,finishedBy,canceledBy,closedBy,closedReason,score,realScore';
 
 $config->task->custom = new stdclass();

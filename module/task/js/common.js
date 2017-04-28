@@ -31,16 +31,16 @@ function computeWorkDays(currentID)
     isBactchEdit = false;
     if(currentID)
     {
-        index = currentID.replace('estStarted[', '');
-        index = index.replace('deadline[', '');
+        index = currentID.replace('estStarteds[', '');
+        index = index.replace('deadlines[', '');
         index = index.replace(']', '');
         if(!isNaN(index)) isBactchEdit = true;
     }
 
     if(isBactchEdit)
     {
-        beginDate = $('#estStarted\\[' + index + '\\]').val();
-        endDate   = $('#deadline\\[' + index + '\\]').val();
+        beginDate = $('#estStarteds\\[' + index + '\\]').val();
+        endDate   = $('#deadlines\\[' + index + '\\]').val();
     }
     else
     {
@@ -57,7 +57,11 @@ function computeWorkDays(currentID)
     {
         computeEndDate();
     }
-    estTaskScore(computeDaysDelta(beginDate, endDate));
+    if(typeof(index) == "undefined") {
+        estTaskScore(computeDaysDelta(beginDate, endDate));
+    }else{
+        estTaskScore(computeDaysDelta(beginDate, endDate),index);
+    }
 }
 /**
  * Compute the end date for project.
@@ -123,10 +127,18 @@ function computeDaysDelta(date1, date2)
 /**
  * set estimate task score.
  * @param days
+ * @param index
  */
-function estTaskScore(days) {
-    var level = parseInt($('#level option:selected').text());
-    var days = days || parseInt($('#days').val());
-    var score = days>0 ? Math.round(level / 22 * days / 6) : 0;
-    $('#score').val(score);
+function estTaskScore(days, index) {
+    if(typeof(index) == "undefined") {
+        var level = parseInt($('#level option:selected').text());
+        var days = days || parseInt($('#days').val());
+        var score = days>0 ? Math.round(level / 22 * days / 6) : 0;
+        $('#score').val(score);
+    }else{
+        var level = parseInt($('#levels' + index + ' option:selected').text());
+        var days = parseInt($('#dayses\\[' + index + '\\]').val());
+        var score = days>0 ? Math.round(level / 22 * days / 6) : 0;
+        $('#scores\\[' + index + '\\]').val(score);
+    }
 }

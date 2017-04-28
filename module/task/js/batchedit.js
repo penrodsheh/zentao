@@ -45,3 +45,24 @@ $(document).on('change', 'select', function()
         $(this).trigger("change");
     }
 })
+$(document).ready(function() {
+    $("input[type='text'][id^='dayses[']").keydown(function (e) {
+        var code = parseInt(e.keyCode);
+        if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
+            return true;
+        } else {
+            return false;
+        }
+    }).keyup(function () {
+        estTaskScore(this.value,$(this).data('index'));
+    })
+
+    $("input[type='text'][id^='scores[']").keydown(function (e) {
+        var code = parseInt(e.keyCode);
+        if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
+            return true;
+        } else {
+            return false;
+        }
+    })
+})
