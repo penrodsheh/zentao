@@ -88,6 +88,16 @@
             <?php endif;?>
           </div>
         </td>
+          <?php if(strpos(",$showFields,", ',source,') !== false):?>
+              <td>
+                  <div class='input-group'>
+                      <span class='input-group-addon'><?php echo $lang->story->busiRank?></span>
+                      <?php echo html::select('busiRank', $lang->story->busiRankList, $busiRank, "class='form-control'");?>
+                      <span class='input-group-addon fix-border'><?php echo $lang->story->techRank?></span>
+                      <?php echo html::select('techRank', $lang->story->techRankList, $techRank, "class='form-control'");?>
+                  </div>
+              </td>
+          <?php endif;?>
       </tr> 
       <tr>
         <th><?php echo $lang->story->title;?></th>

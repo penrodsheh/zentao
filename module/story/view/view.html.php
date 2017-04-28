@@ -190,6 +190,14 @@
                 <th><?php echo $lang->story->source;?></th>
                 <td id='source'><?php echo $lang->story->sourceList[$story->source] . ' ' . $story->sourceNote;?></td>
               </tr>
+                <tr>
+                    <th><?php echo $lang->story->busiRank;?></th>
+                    <td id='source'><?php echo $story->busiRank;?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $lang->story->techRank;?></th>
+                    <td id='source'><?php echo $story->techRank;?></td>
+                </tr>
               <tr>
                 <th><?php echo $lang->story->status;?></th>
                 <td class='story-<?php echo $story->status?>'><?php echo $lang->story->statusList[$story->status];?></td>
