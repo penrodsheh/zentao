@@ -90,6 +90,10 @@
             <td><?php echo $project->days;?></td>
           </tr>
           <tr>
+            <th><?php echo $lang->project->category;?></th>
+            <td><?php echo $lang->project->categoryList[$project->category];?></td>
+          </tr>
+          <tr>
             <th><?php echo $lang->project->type;?></th>
             <td><?php echo $lang->project->typeList[$project->type];?></td>
           </tr>

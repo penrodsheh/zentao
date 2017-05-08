@@ -54,11 +54,15 @@
         <th><?php echo $lang->project->days;?></th>
         <td>
           <div class='input-group'>
-          <?php echo html::input('days', $project->days, "class='form-control' autocomplete='off'");?>
+            <?php echo html::input('days', $project->days, "class='form-control' autocomplete='off'");?>
             <span class='input-group-addon'><?php echo $lang->project->day;?></span>
           </div>
         </td>
-      </tr> 
+      </tr>
+      <tr>
+        <th><?php echo $lang->project->category;?></th>
+        <td><?php echo html::select('category', $lang->project->categoryList, $project->category, "class='form-control'");?></td>
+      </tr>
       <tr>
         <th><?php echo $lang->project->type;?></th>
         <td><?php echo html::select('type', $lang->project->typeList, $project->type, "class='form-control'");?></td>

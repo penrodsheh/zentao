@@ -78,7 +78,13 @@
       <tr>
         <th><?php echo $lang->project->teamname;?></th>
         <td><?php echo html::input('team', $team, "class='form-control' autocomplete='off'");?></td>
-      </tr>  
+      </tr>
+      <tr>
+        <th><?php echo $lang->project->category;?></th>
+        <td>
+            <?php echo html::select('category', $lang->project->categoryList, '', "class='form-control'");?>
+        </td>
+      </tr>
       <tr>
         <th><?php echo $lang->project->type;?></th>
         <td>

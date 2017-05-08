@@ -13,6 +13,7 @@
 $lang->project->common        = $lang->projectCommon . '视图';
 $lang->project->allProjects   = '全部';
 $lang->project->type          = $lang->projectCommon . '类型';
+$lang->project->category      = $lang->projectCommon . '种类';
 $lang->project->name          = $lang->projectCommon . '名称';
 $lang->project->code          = $lang->projectCommon . '代号';
 $lang->project->begin         = '开始日期';
@@ -61,6 +62,10 @@ $lang->project->close    = '关闭';
 $lang->project->typeList['sprint']    = "短期$lang->projectCommon";
 $lang->project->typeList['waterfall'] = "长期$lang->projectCommon";
 $lang->project->typeList['ops']       = "运维$lang->projectCommon";
+
+$lang->project->categoryList['dev']    = "研发$lang->projectCommon";
+$lang->project->categoryList['imp']    = "实施$lang->projectCommon";
+$lang->project->categoryList['ops']    = "运维$lang->projectCommon";
 
 $lang->project->endList[7]    = '一星期';
 $lang->project->endList[14]   = '两星期';
