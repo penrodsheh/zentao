@@ -217,8 +217,12 @@
           </tr>
 
           <tr>
+            <th><?php echo $lang->task->techRank;?></th>
+            <td><?php echo $task->techRank;?></td>
+          </tr>
+          <tr>
             <th><?php echo $lang->task->level;?></th>
-            <td><?php echo $task->levelScore;?></td>
+            <td><?php echo $task->level;?></td>
           </tr>
           <tr>
             <th><?php echo $lang->task->days;?></th>
@@ -228,7 +232,6 @@
             <th><?php echo $lang->task->score;?></th>
             <td><?php echo $task->score;?></td>
           </tr>
-
 
           <tr>
             <th><?php echo $lang->task->estimate;?></th>

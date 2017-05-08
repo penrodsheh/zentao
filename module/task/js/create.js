@@ -27,13 +27,6 @@ function setOwners(result)
     }
 }
 
-/* Set preview and module of story. */
-function setStoryRelated()
-{
-    setPreview();
-    if($('#module').val() == 0) setStoryModule();
-}
-
 /* Set the story module. */
 function setStoryModule()
 {
@@ -52,14 +45,16 @@ function setStoryModule()
 /* Set the story priview link. */
 function setPreview()
 {
-    if(!$('#story').val())
+    var story = $('#story').val();
+    if(!story)
     {
         $('#preview').addClass('hidden');
         $('#copyButton').parent().addClass('hidden');
     }
     else
     {
-        storyLink  = createLink('story', 'view', "storyID=" + $('#story').val());
+        getStoryRank(story);
+        storyLink  = createLink('story', 'view', "storyID=" + story);
         var concat = config.requestType != 'GET' ? '?'  : '&';
         storyLink  = storyLink + concat + 'onlybody=yes';
         $('#preview').removeClass('hidden');
@@ -134,6 +129,16 @@ function setStories(moduleID, projectID)
         $("#story").chosen(defaultChosenOptions);
     });
 }
+
+/* Set preview and module of story. */
+function setStoryRelated()
+{
+    setPreview();
+    getStoryRank();
+    if($('#module').val() == 0) setStoryModule();
+}
+
+
 
 $(document).ready(function() {
     $("#days").keydown(function (e) {

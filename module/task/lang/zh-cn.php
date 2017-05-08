@@ -61,6 +61,7 @@ $lang->task->hour              = '小时';
 $lang->task->consumedThisTime  = '工时';
 $lang->task->leftThisTime      = '剩余';
 $lang->task->datePlan          = '日程规划';
+$lang->task->techRank          = '技术难度';
 $lang->task->level             = '任务等级';
 $lang->task->days              = '可用工作日';
 $lang->task->score             = '任务分值';
@@ -131,6 +132,18 @@ $lang->task->priList[3]  = '3';
 $lang->task->priList[1]  = '1';
 $lang->task->priList[2]  = '2';
 $lang->task->priList[4]  = '4';
+
+$lang->task->techRankList[]   = '';
+$lang->task->techRankList[1]  = '1';
+$lang->task->techRankList[2]  = '2';
+$lang->task->techRankList[3]  = '3';
+$lang->task->techRankList[4]  = '4';
+$lang->task->techRankList[5]  = '5';
+$lang->task->techRankList[6]  = '6';
+$lang->task->techRankList[7]  = '7';
+$lang->task->techRankList[8]  = '8';
+$lang->task->techRankList[9]  = '9';
+$lang->task->techRankList[10]  = '10';
 
 $lang->task->reasonList['']       = '';
 $lang->task->reasonList['done']   = '已完成';

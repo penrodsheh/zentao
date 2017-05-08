@@ -16,6 +16,7 @@
 <?php include '../../common/view/kindeditor.html.php';?>
 <?php js::import($jsRoot . 'misc/date.js');?>
 <?php js::set('weekend', $config->task->weekend);?>
+<?php js::set('levels', $levels);?>
 <div class='container mw-1400px'>
   <div id='titlebar'>
     <div class='heading'>
@@ -30,19 +31,23 @@
     <table class='table table-form'>
       <tr>
         <th class='w-100px'><?php echo $lang->task->module;?></th>
-        <td id='moduleIdBox' class='w-p25-f'><?php echo html::select('module', $moduleOptionMenu, $task->module, "class='form-control chosen' onchange='setStories(this.value,$project->id)'");?></td>
-        <td></td><td></td><td></td><td></td>
-      </tr>
-      <tr>
-        <th><?php echo $lang->task->type;?></th>
-        <td><?php echo html::select('type', $lang->task->typeList, $task->type, 'class=form-control onchange="setOwners(this.value)"');?></td><td></td>
-      </tr>
-      <tr>
-        <th><?php echo $lang->task->assignedTo;?></th>
-        <td><?php echo html::select('assignedTo[]', $members, $task->assignedTo, "class='form-control chosen'");?></td>
+        <td id='moduleIdBox' class='w-p45-f'><?php echo html::select('module', $moduleOptionMenu, $task->module, "class='form-control chosen' onchange='setStories(this.value,$project->id)'");?></td>
         <td>
-          <button type='button' class='btn btn-link<?php echo $task->type == 'affair' ? '' : ' hidden'?>' id='selectAllUser'><?php echo $lang->task->selectAllUser ?></button>
+          <div class='input-group' id='moduleIdBox'>
+              <span class='input-group-addon'><?php echo $lang->task->type;?></span>
+              <?php echo html::select('type', $lang->task->typeList, $task->type, 'class=form-control onchange="setOwners(this.value)"');?>
+          </div>
         </td>
+      </tr>
+      <tr>
+          <th><?php echo $lang->task->techRank;?></th>
+          <td><?php echo html::select('techRank', $lang->task->techRankList, $story->techRank, 'class=form-control onchange="setTaskScore()"');?></td>
+          <td>
+              <div class='input-group' id='moduleIdBox'>
+                  <span class='input-group-addon'><?php echo $lang->task->assignedTo;?></span>
+                  <?php echo html::select('assignedTo[]', $members, $task->assignedTo, "class='form-control chosen'");?>
+              </div>
+          </td>
       </tr>
       <?php if(strpos(",$showFields,", ',story,') !== false):?>
       <tr>
@@ -166,9 +171,7 @@
                 <?php if(!$hiddenEstStarted or !$hiddenDeadline):?>
                     <div class='col-table' id='scoreRowCol'>
                         <div class='input-group' id='dataScoreGroup'>
-                            <?php if(!$hiddenEstStarted):?>
-                                <?php echo html::select('level', $levels, '1', 'class=form-control onchange="estTaskScore()"');?>
-                            <?php endif;?>
+                            <?php echo html::input('level', '', "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?>
                             <span class='input-group-addon fix-border'><?php echo $lang->task->days;?></span>
                             <?php echo html::input('days', '', "class='form-control' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
                             <span class='input-group-addon'><?php echo $lang->project->day;?></span>

@@ -350,12 +350,15 @@ class task extends control
             $members = $this->project->getTeamMemberPairs($projectID, 'nodeleted');
             $members = array('' => '', 'ditto' => $this->lang->task->ditto) + $members;
             $members['closed'] = 'Closed';
-
+            $stories = $this->story->getProjectStoryPairs($projectID);
+            $stories = array('ditto' => $this->lang->task->ditto) + $stories;
+            $storyRanks = $this->story->getProjectStoryRanks($projectID);
             $this->view->title      = $project->name . $this->lang->colon . $this->lang->task->batchEdit;
             $this->view->position[] = html::a($this->createLink('project', 'browse', "project=$project->id"), $project->name);
             $this->view->project    = $project;
             $this->view->modules    = $modules;
             $this->view->members    = $members;
+            $this->view->stories    = $stories;
         }
         /* The tasks of my. */
         else
@@ -370,7 +373,7 @@ class task extends control
         }
 
         /* Get edited tasks. */
-        $tasks = $this->dao->select('*')->from(TABLE_TASK)->where('id')->in($taskIDList)->fetchAll('id');
+        $tasks = $this->dao->select('t1.*,t2.score as levelScore')->from(TABLE_TASK)->alias('t1')->leftJoin(TABLE_LEVEL)->alias('t2')->on('t1.level=t2.level')->where('t1.id')->in($taskIDList)->fetchAll('id');
 
         /* Judge whether the editedTasks is too large and set session. */
         $countInputVars  = count($tasks) * (count(explode(',', $this->config->task->custom->batchEditFields)) + 3);
@@ -392,7 +395,9 @@ class task extends control
         $this->view->taskIDList  = $taskIDList;
         $this->view->tasks       = $tasks;
         $this->view->projectName = isset($project) ? $project->name : '';
+        $this->view->techRanks   = $this->lang->task->techRankList;
         $this->view->levels      = $this->loadModel('task')->getLevels();
+        $this->view->storyRanks  = $storyRanks;
         $this->display();
     }
 

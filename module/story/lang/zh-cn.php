@@ -90,7 +90,6 @@ $lang->story->newStory       = '继续添加需求';
 $lang->story->colorTag       = '颜色标签';
 $lang->story->files          = '附件';
 $lang->story->busiRank       = '业务难度';
-$lang->story->techRank       = '技术难度';
 
 $lang->story->ditto       = '同上';
 $lang->story->dittoNotice = '该需求与上一需求不属于同一产品！';
@@ -166,18 +165,6 @@ $lang->story->busiRankList[7]  = '7';
 $lang->story->busiRankList[8]  = '8';
 $lang->story->busiRankList[9]  = '9';
 $lang->story->busiRankList[10] = '10';
-
-$lang->story->techRankList[]   = '';
-$lang->story->techRankList[1]  = '1';
-$lang->story->techRankList[2]  = '2';
-$lang->story->techRankList[3]  = '3';
-$lang->story->techRankList[4]  = '4';
-$lang->story->techRankList[5]  = '5';
-$lang->story->techRankList[6]  = '6';
-$lang->story->techRankList[7]  = '7';
-$lang->story->techRankList[8]  = '8';
-$lang->story->techRankList[9]  = '9';
-$lang->story->techRankList[10]  = '10';
 
 $lang->story->legendBasicInfo      = '基本信息';
 $lang->story->legendLifeTime       = '需求的一生';

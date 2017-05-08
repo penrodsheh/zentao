@@ -18,6 +18,7 @@
 <?php js::set('confirmChangeProject', $lang->task->confirmChangeProject); ?>
 <?php js::set('changeProjectConfirmed', false); ?>
 <?php js::set('weekend', $config->task->weekend);?>
+<?php js::set('levels', $levels);?>
 <form class='form-condensed' method='post' enctype='multipart/form-data' target='hiddenwin' id='dataform'>
 <div id='titlebar'>
   <div class='heading'>
@@ -74,7 +75,7 @@
           </tr>  
           <tr>
             <th><?php echo $lang->task->story;?></th>
-            <td><span id="storyIdBox"><?php echo html::select('story', $stories, $task->story, "class='form-control chosen'");?></span></td>
+            <td><span id="storyIdBox"><?php echo html::select('story', $stories, $task->story, "class='form-control chosen' onchange='getStoryRank();'");?></span></td>
           </tr>  
           <tr>
             <th><?php echo $lang->task->assignedTo;?></th>
@@ -113,10 +114,13 @@
             <th><?php echo $lang->task->deadline;?></th>
             <td><?php echo html::input('deadline', $task->deadline, "class='form-control form-date' onchange='computeWorkDays()'");?></td>
           </tr>
-
           <tr>
-            <th class='w-70px'><?php echo $lang->task->level;?></th>
-            <td><?php echo html::select('level', $levels, $task->level, 'class=form-control onchange="estTaskScore()"');?></td>
+            <th><?php echo $lang->task->techRank;?></th>
+            <td><?php echo html::select('techRank', $lang->task->techRankList, $task->techRank, 'class=form-control onchange="setTaskScore()"');?></td>
+          </tr>
+          <tr>
+            <th><?php echo $lang->task->level;?></th>
+            <td><?php echo html::input('level', '', "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?></td>
           </tr>
           <tr>
             <th><?php echo $lang->task->days;?></th>

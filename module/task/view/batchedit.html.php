@@ -14,6 +14,7 @@
 <?php include '../../common/view/datepicker.html.php';?>
 <?php js::set('dittoNotice', $this->lang->task->dittoNotice);?>
 <?php js::set('weekend', $config->task->weekend);?>
+<?php js::set('levels', $levels);?>
 <div id='titlebar'>
   <div class='heading'>
     <span class='prefix'><?php echo html::icon($lang->icons['task']);?></span>
@@ -40,22 +41,24 @@ foreach(explode(',', $showFields) as $field)
         <th class='w-50px'><?php echo $lang->idAB;?></th>
         <th <?php if(count($visibleFields) > 10) echo "class='w-150px'"?>>   <?php echo $lang->task->name?> <span class='required'></span></th>
         <th class='w-150px<?php echo zget($visibleFields, 'module', ' hidden')?>'><?php echo $lang->task->module?></th>
-        <th class='w-150px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->task->assignedTo;?></th>
+        <th class='w-250px<?php echo zget($visibleFields, 'story', ' hidden');?>'><?php echo $lang->task->story;?></th>
+        <th class='w-110px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->task->assignedTo;?></th>
         <th class='w-80px'><?php echo $lang->typeAB;?> <span class='required'></span></th>
-        <th class='w-100px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
-        <th class='w-70px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->task->pri;?></th>
+        <th class='w-80px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
+        <th class='w-60px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->task->pri;?></th>
         <th class='w-40px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->task->estimateAB;?></th>
         <th class='w-50px<?php echo zget($visibleFields, 'record', ' hidden')?>'><?php echo $lang->task->consumedThisTime?></th>
         <th class='w-40px<?php echo zget($visibleFields, 'left', ' hidden')?>'><?php echo $lang->task->leftAB?></th>
         <th class='w-90px<?php echo zget($visibleFields, 'estStarted', ' hidden')?>'><?php echo $lang->task->estStarted?></th>
         <th class='w-90px<?php echo zget($visibleFields, 'deadline', ' hidden')?>'><?php echo $lang->task->deadline?></th>
-        <th class='w-90px<?php echo zget($visibleFields, 'level', ' hidden')?>'><?php echo $lang->task->level?></th>
-        <th class='w-90px<?php echo zget($visibleFields, 'days', ' hidden')?>'><?php echo $lang->task->days?></th>
+        <th class='w-80px<?php echo zget($visibleFields, 'days', ' hidden')?>'><?php echo $lang->task->days?></th>
+        <th class='w-70px<?php echo zget($visibleFields, 'techRank', ' hidden')?>'><?php echo $lang->task->techRank?></th>
+        <th class='w-60px<?php echo zget($visibleFields, 'level', ' hidden')?>'><?php echo $lang->task->level?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'finishedBy', ' hidden')?>'><?php echo $lang->task->finishedBy;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'canceledBy', ' hidden')?>'><?php echo $lang->task->canceledBy;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'closedBy', ' hidden')?>'><?php echo $lang->task->closedBy;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'closedReason', ' hidden')?>'><?php echo $lang->task->closedReason;?></th>
-        <th class='w-80px<?php echo zget($visibleFields, 'score', ' hidden')?>'><?php echo $lang->task->score;?></th>
+        <th class='w-70px<?php echo zget($visibleFields, 'score', ' hidden')?>'><?php echo $lang->task->score;?></th>
       </tr>
     </thead>
     <tbody>
@@ -67,7 +70,6 @@ foreach(explode(',', $showFields) as $field)
           $modules = $this->tree->getOptionMenu($tasks[$taskID]->project, $viewType = 'task');
           foreach($modules as $moduleID => $moduleName) $modules[$moduleID] = '/' . $prjInfo->name. $moduleName;
           $modules = array('ditto' => $this->lang->task->ditto) + $modules;
-
           $members = $this->project->getTeamMemberPairs($tasks[$taskID]->project, 'nodeleted');
           $members = array('' => '', 'ditto' => $this->lang->task->ditto) + $members;
       }
@@ -80,7 +82,12 @@ foreach(explode(',', $showFields) as $field)
           <?php echo html::input("names[$taskID]", $tasks[$taskID]->name, "class='form-control' autocomplete='off'");?>
           </div>
         </td>
-        <td class='text-left<?php echo zget($visibleFields, 'module', ' hidden')?>' style='overflow:visible'><?php echo html::select("modules[$taskID]",     $modules, $tasks[$taskID]->module, "class='form-control chosen'")?></td>
+        <td class='text-left<?php echo zget($visibleFields, 'module', ' hidden')?>' style='overflow:visible'>
+            <?php echo html::select("modules[$taskID]", $modules, $tasks[$taskID]->module, "class='form-control chosen'")?>
+        </td>
+        <td class='text-left<?php echo zget($visibleFields, 'story', ' hidden')?>' style='overflow:visible'>
+            <?php echo html::select("stories[$taskID]", $stories, $tasks[$taskID]->story, "data-rank='{$storyRanks[$tasks[$taskID]->story]}' class='form-control chosen' disabled=disabled")?>
+        </td>
         <td class='text-left<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>' style='overflow:visible'><?php echo html::select("assignedTos[$taskID]", $members, $tasks[$taskID]->assignedTo, "class='form-control chosen'");?></td>
         <td><?php echo html::select("types[$taskID]",    $typeList, $tasks[$taskID]->type, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'status', "class='hidden'")?>><?php echo html::select("statuses[$taskID]", $statusList, $tasks[$taskID]->status, 'class=form-control');?></td>
@@ -88,17 +95,16 @@ foreach(explode(',', $showFields) as $field)
         <td <?php echo zget($visibleFields, 'estimate', "class='hidden'")?>><?php echo html::input("estimates[$taskID]", $tasks[$taskID]->estimate, "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'record', "class='hidden'")?>><?php echo html::input("consumeds[$taskID]", '', "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'left', "class='hidden'")?>><?php echo html::input("lefts[$taskID]",     $tasks[$taskID]->left, "class='form-control text-center' autocomplete='off'");?></td>
-        <td <?php echo zget($visibleFields, 'estStarted', "class='hidden'")?>><?php echo html::input("estStarteds[$taskID]",     $tasks[$taskID]->estStarted, "class='form-control text-center form-date' onchange='computeWorkDays(this.id)'");?></td>
+        <td <?php echo zget($visibleFields, 'estStarted', "class='hidden'")?>><?php echo html::input("estStarteds[$taskID]", $tasks[$taskID]->estStarted, "class='form-control text-center form-date' onchange='computeWorkDays(this.id)'");?></td>
         <td <?php echo zget($visibleFields, 'deadline', "class='hidden'")?>><?php echo html::input("deadlines[$taskID]",     $tasks[$taskID]->deadline, "class='form-control text-center form-date' onchange='computeWorkDays(this.id)'");?></td>
-
-        <td <?php echo zget($visibleFields, 'level', ' hidden')?>><?php echo html::select("levels[$taskID]", $levels, $tasks[$taskID]->level, "class=form-control onchange='estTaskScore(0,$taskID)'");?></td>
         <td <?php echo zget($visibleFields, 'days', ' hidden')?>>
-            <div class='input-group'>
-                <?php echo html::input("dayses[$taskID]",$tasks[$taskID]->days, "data-index='{$taskID}' style='ime-mode:disabled' class='form-control' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
-                <span class='input-group-addon'><?php echo $lang->project->day;?></span>
-            </div>
+          <div class='input-group'>
+            <?php echo html::input("dayses[$taskID]",$tasks[$taskID]->days, "data-index='{$taskID}' style='ime-mode:disabled' class='form-control' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
+            <span class='input-group-addon'><?php echo $lang->project->day;?></span>
+          </div>
         </td>
-
+        <td <?php echo zget($visibleFields, 'techRank', ' hidden')?>><?php echo html::select("techRanks[$taskID]", $techRanks, $tasks[$taskID]->techRank, "class=form-control onchange='estTaskScore(0,$taskID)'");?></td>
+        <td <?php echo zget($visibleFields, 'level', ' hidden')?>><?php echo html::input("levels[$taskID]", $tasks[$taskID]->level, "data-score='{$tasks[$taskID]->levelScore}' class='form-control' readonly='readonly'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'finishedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("finishedBys[$taskID]", $members, $tasks[$taskID]->finishedBy, "class='form-control chosen'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'canceledBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("canceledBys[$taskID]", $members, $tasks[$taskID]->canceledBy, "class='form-control chosen'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'closedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("closedBys[$taskID]",   $members, $tasks[$taskID]->closedBy, "class='form-control chosen'");?></td>

@@ -52,6 +52,9 @@ class story extends control
             {
                 $response['result']  = 'fail';
                 $response['message'] = dao::getError();
+                if(!empty($response['message']['assignedTo'])) {
+                    $response['message']['assignedTo'][0] = sprintf($this->lang->error->notempty, $this->lang->story->reviewedBy);
+                }
                 $this->send($response);
             }
 
@@ -481,7 +484,13 @@ class story extends control
         if(!empty($_POST))
         {
             $changes = $this->story->change($storyID);
-            if(dao::isError()) die(js::error(dao::getError()));
+            if(dao::isError()) {
+                $error = dao::getError();
+                if(!empty($error['assignedTo'])) {
+                    $error['assignedTo'][0] = sprintf($this->lang->error->notempty, $this->lang->story->reviewedBy);
+                }
+                die(js::error($error));
+            }
             $version = $this->dao->findById($storyID)->from(TABLE_STORY)->fetch('version');
             $files = $this->loadModel('file')->saveUpload('story', $storyID, $version);
             if($this->post->comment != '' or !empty($changes) or !empty($files))
@@ -1476,5 +1485,15 @@ class story extends control
         $this->view->allExportFields = $this->config->story->list->exportFields;
         $this->view->customExport    = true;
         $this->display();
+    }
+
+    /**
+     * @param $storyID
+     */
+    public function ajaxComputeRank($storyID)
+    {
+        $story = $this->story->getByID($storyID);
+        $rank = $story->busiRank + ceil($story->pri/2);
+        die($rank);
     }
 }

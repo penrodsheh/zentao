@@ -465,6 +465,7 @@ class storyModel extends model
         $this->dao->update(TABLE_STORY)
             ->data($story)
             ->autoCheck()
+            ->batchCheck($this->config->story->change->requiredFields, 'notempty')
             ->checkIF(isset($story->closedBy), 'closedReason', 'notempty')
             ->checkIF(isset($story->closedReason) and $story->closedReason == 'done', 'stage', 'notempty')
             ->checkIF(isset($story->closedReason) and $story->closedReason == 'duplicate',  'duplicateStory', 'notempty')
@@ -1643,7 +1644,7 @@ class storyModel extends model
     public function getProjectStoryPairs($projectID = 0, $productID = 0, $branch = 0, $moduleIdList = 0, $type = 'full')
     {
         if(defined('TUTORIAL')) return $this->loadModel('tutorial')->getProjectStoryPairs();
-        $stories = $this->dao->select('t2.id, t2.title, t2.module, t2.pri, t2.estimate, t3.name AS product')
+        $stories = $this->dao->select('t2.id, t2.title, t2.module, t2.pri, t2.estimate, t2.busiRank, t3.name AS product')
             ->from(TABLE_PROJECTSTORY)->alias('t1')
             ->leftJoin(TABLE_STORY)->alias('t2')->on('t1.story = t2.id')
             ->leftJoin(TABLE_PRODUCT)->alias('t3')->on('t1.product = t3.id')
@@ -1657,6 +1658,26 @@ class storyModel extends model
         return $this->formatStories($stories, $type);
     }
 
+    /**
+     * Get stories score by busiRank and Pri
+     * @param int $projectID
+     * @return array
+     */
+    public function getProjectStoryRanks($projectID = 0)
+    {
+        $stories = $this->dao->select('t2.id, t2.busiRank + ceil(t2.pri/2) AS storyRank')
+            ->from(TABLE_PROJECTSTORY)->alias('t1')
+            ->leftJoin(TABLE_STORY)->alias('t2')->on('t1.story = t2.id')
+            ->leftJoin(TABLE_PRODUCT)->alias('t3')->on('t1.product = t3.id')
+            ->where('t1.project')->eq((int)$projectID)
+            ->andWhere('t2.deleted')->eq(0)
+            ->fetchAll();
+        if(!$stories) return array();
+        foreach ($stories as $story) {
+            $res[$story->id] = $story->storyRank;
+        }
+        return $res;
+    }
     /**
      * Get stories list of a plan.
      * 
@@ -1883,7 +1904,7 @@ class storyModel extends model
             }
             else
             {
-                $property = '(' . $this->lang->story->pri . ':' . $story->pri . ',' . $this->lang->story->estimate . ':' . $story->estimate . ')';
+                $property = '(' . $this->lang->story->pri . ':' . $story->pri . ',' . $this->lang->story->busiRank . ':' . $story->busiRank . ',' . $this->lang->story->estimate . ':' . $story->estimate . ')';
             }
             $storyPairs[$story->id] = $story->id . ':' . $story->title . $property;
 

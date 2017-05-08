@@ -33,6 +33,10 @@ var assignedTo = '<?php $story->lastEditedBy ? print($story->lastEditedBy) : pri
           <th><?php echo $lang->story->reviewResult;?></th>
           <td><?php echo html::select('result', $lang->story->reviewResultList, '', 'class=form-control onchange="switchShow(this.value)"');?></td><td></td>
         </tr>
+        <tr>
+          <th><?php echo $lang->story->busiRank;?></th>
+          <td><?php echo html::select('busiRank', $lang->story->busiRankList, $story->busiRank, 'class=form-control');?></td>
+        </tr>
         <tr id='rejectedReasonBox' class='hide'>
           <th><?php echo $lang->story->rejectedReason;?></th>
           <td><?php echo html::select('closedReason', $lang->story->reasonList, '', 'class=form-control onchange="setStory(this.value)"');?></td><td></td>

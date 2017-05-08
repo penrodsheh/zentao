@@ -120,14 +120,6 @@
               </div>
             </td>
           </tr>
-            <tr>
-                <th><?php echo $lang->story->busiRank;?></th>
-                <td><?php echo html::select('busiRank', $lang->story->busiRankList, $story->busiRank, 'class=form-control');?></td>
-            </tr>
-            <tr>
-                <th><?php echo $lang->story->pri;?></th>
-                <td><?php echo html::select('techRank', $lang->story->techRankList, $story->techRank, 'class=form-control');?></td>
-            </tr>
           <tr>
             <th><?php echo $lang->story->status;?></th>
             <td><span class='story-<?php echo $story->status;?>'><?php echo $lang->story->statusList[$story->status];?></span></td>

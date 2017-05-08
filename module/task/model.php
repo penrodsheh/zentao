@@ -310,6 +310,7 @@ class taskModel extends model
             $prev['status']     = $data->statuses[$taskID];
             $prev['assignedTo'] = $data->assignedTos[$taskID];
             $prev['pri']        = $data->pris[$taskID];
+            $prev['techRank']   = $data->techRanks[$taskID];
             $prev['finishedBy'] = $data->finishedBys[$taskID];
             $prev['canceledBy'] = $data->canceledBys[$taskID];
             $prev['closedBy']   = $data->closedBys[$taskID];
@@ -346,6 +347,7 @@ class taskModel extends model
             $task->lastEditedBy   = $this->app->user->account;
             $task->lastEditedDate = $now;
             $task->consumed       = $oldTask->consumed;
+            $task->techRank       = $data->techRanks[$taskID];
             $task->level          = $data->levels[$taskID];
             $task->days           = $data->dayses[$taskID];
             $task->score          = $data->scores[$taskID];
@@ -975,14 +977,12 @@ class taskModel extends model
      */
     public function getById($taskID, $setImgSize = false)
     {
-        $task = $this->dao->select('t1.*, t2.id AS storyID, t2.title AS storyTitle, t2.version AS latestStoryVersion, t2.status AS storyStatus, t3.realname AS assignedToRealName, t4.score AS levelScore')
+        $task = $this->dao->select('t1.*, t2.id AS storyID, t2.title AS storyTitle, t2.version AS latestStoryVersion, t2.status AS storyStatus, t3.realname AS assignedToRealName')
             ->from(TABLE_TASK)->alias('t1')
             ->leftJoin(TABLE_STORY)->alias('t2')
             ->on('t1.story = t2.id')
             ->leftJoin(TABLE_USER)->alias('t3')
             ->on('t1.assignedTo = t3.account')
-            ->leftJoin(TABLE_LEVEL)->alias('t4')
-            ->on('t1.level = t4.id')
             ->where('t1.id')->eq((int)$taskID)
             ->fetch();
         if(!$task) return false;
@@ -1721,7 +1721,12 @@ class taskModel extends model
      */
     public function getLevels()
     {
-        return $this->dao->select('id, score')->from('zt_level')->fetchPairs();
+        $levels = $this->dao->select('id, level, score')->from('zt_level')->fetchPairs();
+        foreach($levels as $level => $score)
+        {
+            $scores[$level] = $score;
+        }
+        return $scores;
     }
 
     /**

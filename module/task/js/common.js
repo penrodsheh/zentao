@@ -14,11 +14,6 @@ function checkLeft()
         }
     }
 }
-/* Set the score field. */
-function setScore(result)
-{
-    $('#score').val(result);
-}
 
 /**
  * Compute work days.
@@ -109,8 +104,12 @@ function convertStringToDate(dateString)
  */
 function computeDaysDelta(date1, date2)
 {
+    if(parseInt(date1) == 0 || parseInt(date2) == 0) {
+        return 0;
+    }
     date1 = convertStringToDate(date1);
     date2 = convertStringToDate(date2);
+
     delta = (date2 - date1) / (1000 * 60 * 60 * 24) + 1;
 
     weekEnds = 0;
@@ -121,7 +120,21 @@ function computeDaysDelta(date1, date2)
         date1 += 1000 * 60 * 60 * 24;
         date1 = new Date(date1);
     }
-    return delta - weekEnds;
+    var workdays = delta - weekEnds;
+    return  workdays > 0 ? workdays : 0 ;
+}
+
+/**
+ * get story score.
+ * @param story
+ */
+function getStoryRank(story)
+{
+    link = createLink('story', 'ajaxComputeRank', 'storyID=' + $('#story').val());
+    $.get(link,function (rank) {
+        $('#story').data('rank', rank);
+        setTaskScore(rank);
+    })
 }
 
 /**
@@ -129,16 +142,39 @@ function computeDaysDelta(date1, date2)
  * @param days
  * @param index
  */
-function estTaskScore(days, index) {
-    if(typeof(index) == "undefined") {
-        var level = parseInt($('#level option:selected').text());
+function setTaskScore(storyRank)
+{
+    var storyRank = storyRank || parseInt($('#story').data('rank') || 0);
+    var level = parseInt(storyRank) + parseInt($('#techRank').val());
+    $('#level').val(level).data('score', levels[level]);
+    estTaskScore();
+}
+
+/**
+ * set estimate task score.
+ * @param days
+ * @param index
+ */
+function estTaskScore(days, index)
+{
+    if(typeof(index) == "undefined")
+    {
+        var level = parseInt($('#level').data('score') || 0);
         var days = days || parseInt($('#days').val());
-        var score = days>0 ? Math.round(level / 22 * days / 6) : 0;
+        var score = days > 0 ? Math.round(level / 22 * days / 8) : 0;
         $('#score').val(score);
-    }else{
-        var level = parseInt($('#levels' + index + ' option:selected').text());
-        var days = parseInt($('#dayses\\[' + index + '\\]').val());
-        var score = days>0 ? Math.round(level / 22 * days / 6) : 0;
-        $('#scores\\[' + index + '\\]').val(score);
+    }
+    else
+    {
+        var $techRank = $('#techRanks' + index);
+        var $story = $('#stories' + index);
+        var $level = $('#levels\\[' + index + '\\]');
+        var $days = $('#dayses\\[' + index + '\\]');
+        var $score = $('#scores\\[' + index + '\\]');
+        var level = parseInt($techRank.val()) + parseInt($story.data('rank'));
+        var days = parseInt($days.val());
+        var score = days > 0 ? Math.round(levels[level] / 22 * days / 8) : 0;
+        $level.val(level);
+        $score.val(score);
     }
 }

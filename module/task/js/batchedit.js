@@ -18,12 +18,13 @@ $(document).on('change', 'select', function()
             if(value != 'ditto') break;
         }
 
+        isStories     = $(this).attr('name').indexOf('stories')     != -1;
         isModules     = $(this).attr('name').indexOf('modules')     != -1;
         isAssignedTos = $(this).attr('name').indexOf('assignedTos') != -1;
         isFinishedBys = $(this).attr('name').indexOf('finishedBys') != -1;
         isClosedBys   = $(this).attr('name').indexOf('closedBys')   != -1;
 
-        if(isModules || isAssignedTos || isFinishedBys || isClosedBys)
+        if(isStories || isModules || isAssignedTos || isFinishedBys || isClosedBys)
         {
             var valueStr = ',' + $(this).find('option').map(function(){return $(this).val();}).get().join(',') + ',';
             if(valueStr.indexOf(',' + value + ',') != -1)

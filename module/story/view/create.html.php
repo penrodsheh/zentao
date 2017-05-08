@@ -82,22 +82,9 @@
         <th><?php echo $lang->story->reviewedBy;?></th>
         <td>
           <div class='input-group'>
-            <?php echo html::select('assignedTo', $users, empty($needReview) ? $product->PO : '', "class='form-control chosen'");?>
-            <?php if(!$this->story->checkForceReview()):?>
-            <span class='input-group-addon'><?php echo html::checkbox('needNotReview', $lang->story->needNotReview, '', "id='needNotReview' {$needReview}");?></span>
-            <?php endif;?>
+            <?php echo html::select('assignedTo', $users, '', "class='form-control chosen'");?>
           </div>
         </td>
-          <?php if(strpos(",$showFields,", ',source,') !== false):?>
-              <td>
-                  <div class='input-group'>
-                      <span class='input-group-addon'><?php echo $lang->story->busiRank?></span>
-                      <?php echo html::select('busiRank', $lang->story->busiRankList, $busiRank, "class='form-control'");?>
-                      <span class='input-group-addon fix-border'><?php echo $lang->story->techRank?></span>
-                      <?php echo html::select('techRank', $lang->story->techRankList, $techRank, "class='form-control'");?>
-                  </div>
-              </td>
-          <?php endif;?>
       </tr> 
       <tr>
         <th><?php echo $lang->story->title;?></th>

@@ -74,9 +74,9 @@ js::set('browseType', $browseType);
                 $misc = $canBatchClose ? "onclick=\"setFormAction('$actionLink','hiddenwin')\"" : "class='disabled'";
                 echo "<li>" . html::a('#', $lang->close, '', $misc) . "</li>";
 
-                $actionLink = $this->createLink('task', 'batchScore', "projectID=$projectID");
-                $misc = $canBatchScore ? "onclick=\"setFormAction('$actionLink')\"" : "disabled='disabled'";
-                echo "<li>" . html::a('#', $lang->project->realScore, '', $misc) . "</li>";
+                //$actionLink = $this->createLink('task', 'batchScore', "projectID=$projectID");
+                //$misc = $canBatchScore ? "onclick=\"setFormAction('$actionLink')\"" : "disabled='disabled'";
+                //echo "<li>" . html::a('#', $lang->project->realScore, '', $misc) . "</li>";
 
                 if($canBatchChangeModule)
                 {
