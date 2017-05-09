@@ -52,11 +52,6 @@ function computeWorkDays(currentID)
     {
         computeEndDate();
     }
-    if(typeof(index) == "undefined") {
-        estTaskScore(computeDaysDelta(beginDate, endDate));
-    }else{
-        estTaskScore(computeDaysDelta(beginDate, endDate),index);
-    }
 }
 /**
  * Compute the end date for project.
@@ -138,9 +133,7 @@ function getStoryRank(story)
 }
 
 /**
- * set estimate task score.
- * @param days
- * @param index
+ * set level by story.
  */
 function setTaskScore(storyRank)
 {
@@ -155,13 +148,13 @@ function setTaskScore(storyRank)
  * @param days
  * @param index
  */
-function estTaskScore(days, index)
+function estTaskScore(hours, index)
 {
     if(typeof(index) == "undefined")
     {
         var level = parseInt($('#level').data('score') || 0);
-        var days = days || parseInt($('#days').val());
-        var score = days > 0 ? Math.round(level / 22 * days / 8) : 0;
+        var hours = hours || parseInt($('#estimate').val());
+        var score = hours > 0 ? Math.round(level / 22 * hours / 8) : 0;
         $('#score').val(score);
     }
     else
@@ -169,11 +162,11 @@ function estTaskScore(days, index)
         var $techRank = $('#techRanks' + index);
         var $story = $('#stories' + index);
         var $level = $('#levels\\[' + index + '\\]');
-        var $days = $('#dayses\\[' + index + '\\]');
+        var $hours = $('#estimates\\[' + index + '\\]');
         var $score = $('#scores\\[' + index + '\\]');
         var level = parseInt($techRank.val()) + parseInt($story.data('rank'));
-        var days = parseInt($days.val());
-        var score = days > 0 ? Math.round(levels[level] / 22 * days / 8) : 0;
+        var hours = parseInt($hours.val());
+        var score = hours > 0 ? Math.round(levels[level] / 22 * hours / 8) : 0;
         $level.val(level);
         $score.val(score);
     }

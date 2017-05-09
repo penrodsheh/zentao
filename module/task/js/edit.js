@@ -70,23 +70,15 @@ function setPreview(){}
 
 $(document).ready(function() {
     getStoryRank($('#story').val());
-    $("#days").keydown(function (e) {
+    $('#days,#estimate,#score').keydown(function (e) {
         var code = parseInt(e.keyCode);
         if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
             return true;
         } else {
             return false;
         }
-    }).keyup(function () {
-        estTaskScore(this.value);
     })
-
-    $('#score').keydown(function (e) {
-        var code = parseInt(e.keyCode);
-        if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
-            return true;
-        } else {
-            return false;
-        }
+    $("#estimate").keyup(function () {
+        estTaskScore(this.value);
     })
 })

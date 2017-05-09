@@ -46,7 +46,7 @@ foreach(explode(',', $showFields) as $field)
         <th class='w-80px'><?php echo $lang->typeAB;?> <span class='required'></span></th>
         <th class='w-80px<?php echo zget($visibleFields, 'status', ' hidden')?>'><?php echo $lang->task->status;?></th>
         <th class='w-60px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->task->pri;?></th>
-        <th class='w-40px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->task->estimateAB;?></th>
+        <th class='w-60px'><?php echo $lang->task->estimateAB;?> <span class='required'></span></th>
         <th class='w-50px<?php echo zget($visibleFields, 'record', ' hidden')?>'><?php echo $lang->task->consumedThisTime?></th>
         <th class='w-40px<?php echo zget($visibleFields, 'left', ' hidden')?>'><?php echo $lang->task->leftAB?></th>
         <th class='w-90px<?php echo zget($visibleFields, 'estStarted', ' hidden')?>'><?php echo $lang->task->estStarted?></th>
@@ -92,7 +92,7 @@ foreach(explode(',', $showFields) as $field)
         <td><?php echo html::select("types[$taskID]",    $typeList, $tasks[$taskID]->type, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'status', "class='hidden'")?>><?php echo html::select("statuses[$taskID]", $statusList, $tasks[$taskID]->status, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'pri', "class='hidden'")?>><?php echo html::select("pris[$taskID]",     $priList, $tasks[$taskID]->pri, 'class=form-control');?></td>
-        <td <?php echo zget($visibleFields, 'estimate', "class='hidden'")?>><?php echo html::input("estimates[$taskID]", $tasks[$taskID]->estimate, "class='form-control text-center' autocomplete='off'");?></td>
+        <td <?php echo zget($visibleFields, 'estimate', "class='hidden'")?>><?php echo html::input("estimates[$taskID]", $tasks[$taskID]->estimate, "data-index='{$taskID}' class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'record', "class='hidden'")?>><?php echo html::input("consumeds[$taskID]", '', "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'left', "class='hidden'")?>><?php echo html::input("lefts[$taskID]",     $tasks[$taskID]->left, "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'estStarted', "class='hidden'")?>><?php echo html::input("estStarteds[$taskID]", $tasks[$taskID]->estStarted, "class='form-control text-center form-date' onchange='computeWorkDays(this.id)'");?></td>

@@ -115,6 +115,14 @@
             <td><?php echo html::input('deadline', $task->deadline, "class='form-control form-date' onchange='computeWorkDays()'");?></td>
           </tr>
           <tr>
+            <th><?php echo $lang->task->days;?></th>
+            <td><?php echo html::input('days', $task->days, "class='form-control' placeholder='{$lang->project->day}' maxlength='3' autocomplete='off'");?></td>
+          </tr>
+          <tr>
+            <th><?php echo $lang->task->estimate;?></th>
+            <td><?php echo html::input('estimate', $task->estimate, "class='form-control' autocomplete='off'");?></td>
+          </tr>
+          <tr>
             <th><?php echo $lang->task->techRank;?></th>
             <td><?php echo html::select('techRank', $lang->task->techRankList, $task->techRank, 'class=form-control onchange="setTaskScore()"');?></td>
           </tr>
@@ -123,18 +131,9 @@
             <td><?php echo html::input('level', '', "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?></td>
           </tr>
           <tr>
-            <th><?php echo $lang->task->days;?></th>
-            <td><?php echo html::input('days', $task->days, "class='form-control' placeholder='{$lang->project->day}' maxlength='3' autocomplete='off'");?></td>
-          </tr>
-          <tr>
             <th><?php echo $lang->task->score;?></th>
             <td><?php echo html::input('score', $task->score, "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?></td>
           </tr>
-
-          <tr>
-            <th><?php echo $lang->task->estimate;?></th>
-            <td><?php echo html::input('estimate', $task->estimate, "class='form-control' autocomplete='off'");?></td>
-          </tr>  
           <tr>
             <th><?php echo $lang->task->consumed;?></th>
             <td><?php echo $task->consumed . ' '; common::printIcon('task', 'recordEstimate',   "taskID=$task->id", $task, 'list', '', '', 'iframe', true);?></td>

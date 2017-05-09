@@ -148,6 +148,7 @@ $lang->story->sourceList['tester']     = '测试人员';
 $lang->story->sourceList['bug']        = 'Bug';
 $lang->story->sourceList['other']      = '其他';
 
+//remember to calculation of score depends on count of this.
 $lang->story->priList[]   = '';
 $lang->story->priList[3]  = '3';
 $lang->story->priList[1]  = '1';

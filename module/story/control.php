@@ -1493,7 +1493,8 @@ class story extends control
     public function ajaxComputeRank($storyID)
     {
         $story = $this->story->getByID($storyID);
-        $rank = $story->busiRank + ceil($story->pri/2);
+        $pri = $story->pri > 0 ? abs($story->pri - count($this->lang->story->priList)) : 0;
+        $rank = $story->busiRank + ceil($pri/2);
         die($rank);
     }
 }

@@ -8,7 +8,7 @@ $config->task->start    = new stdclass();
 $config->task->finish   = new stdclass();
 $config->task->activate = new stdclass();
 
-$config->task->create->requiredFields      = 'name,type,story';
+$config->task->create->requiredFields      = 'name,type,story,estimate';
 $config->task->edit->requiredFields        = $config->task->create->requiredFields;
 $config->task->start->requiredFields       = 'estimate';
 $config->task->finish->requiredFields      = 'consumed';
@@ -40,7 +40,7 @@ $config->task->exportFields = '
     ';
 $config->task->customCreateFields      = 'story,estStarted,deadline,mailto,pri,estimate';
 $config->task->customBatchCreateFields = 'module,story,assignedTo,estimate,estStarted,deadline,desc,pri';
-$config->task->customBatchEditFields   = 'module,story,assignedTo,status,pri,estimate,record,left,estStarted,deadline,techRank,level,days,finishedBy,canceledBy,closedBy,closedReason,score';
+$config->task->customBatchEditFields   = 'module,story,assignedTo,status,pri,record,left,estStarted,deadline,techRank,level,days,finishedBy,canceledBy,closedBy,closedReason,score';
 $config->task->customBatchScoreFields  = 'module,assignedTo,status,pri,estimate,record,left,estStarted,deadline,finishedBy,canceledBy,closedBy,closedReason,score,realScore';
 
 $config->task->custom = new stdclass();
