@@ -104,6 +104,15 @@ class story extends control
         }
 
         $users = $this->user->getPairs('nodeleted|pdfirst|noclosed');
+
+        //only get users who have review rights
+        foreach ($users as $account => $name) {
+            $rights = $this->loadModel('user')->authorize($account)['rights'];
+            if(!empty($account) && empty($rights['story']['review'])) {
+                unset($users[$account]);
+            }
+        }
+
         $moduleOptionMenu = $this->tree->getOptionMenu($productID, $viewType = 'story', 0, $branch);
 
         /* Set menu. */
