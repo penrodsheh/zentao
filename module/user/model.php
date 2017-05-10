@@ -1074,4 +1074,22 @@ class userModel extends model
 
         return $strength;
     }
+
+    /**
+     * Get users who have review rights
+     *
+     * @param $users
+     * @access public
+     * return array
+     */
+    public function getReviewUsers($users)
+    {
+        foreach ($users as $account => $name) {
+            $rights = $this->loadModel('user')->authorize($account)['rights'];
+            if(!empty($account) && $account !== 'closed' && empty($rights['story']['review'])) {
+                unset($users[$account]);
+            }
+        }
+        return $users;
+    }
 }

@@ -106,12 +106,7 @@ class story extends control
         $users = $this->user->getPairs('nodeleted|pdfirst|noclosed');
 
         //only get users who have review rights
-        foreach ($users as $account => $name) {
-            $rights = $this->loadModel('user')->authorize($account)['rights'];
-            if(!empty($account) && empty($rights['story']['review'])) {
-                unset($users[$account]);
-            }
-        }
+        $users = $this->user->getReviewUsers($users);
 
         $moduleOptionMenu = $this->tree->getOptionMenu($productID, $viewType = 'story', 0, $branch);
 
@@ -369,12 +364,8 @@ class story extends control
 
         $users = $this->user->getPairs('nodeleted|pofirst', "$story->assignedTo,$story->openedBy,$story->closedBy");
         //only get users who have review rights
-        foreach ($users as $account => $name) {
-            $rights = $this->loadModel('user')->authorize($account)['rights'];
-            if(!empty($account) && $account !== 'closed' && empty($rights['story']['review'])) {
-                unset($users[$account]);
-            }
-        }
+        $users = $this->user->loadModel('user')->getReviewUsers($users);
+
         $product = $this->loadModel('product')->getById($story->product);
         $this->view->title      = $this->lang->story->edit . "STORY" . $this->lang->colon . $this->view->story->title;
         $this->view->position[] = $this->lang->story->edit;
@@ -462,7 +453,10 @@ class story extends control
         }
 
         /* Set ditto option for users. */
-        $users          = $this->loadModel('user')->getPairs('nodeleted');
+        $users = $this->loadModel('user')->getPairs('nodeleted');
+        //only get users who have review rights
+        $users = $this->loadModel('user')->getReviewUsers($users);
+
         $users = array('' => '', 'ditto' => $this->lang->story->ditto) + $users;
 
         /* Set Custom*/
@@ -530,9 +524,13 @@ class story extends control
         $this->app->loadLang('testcase');
         $this->app->loadLang('project');
 
+        $users = $this->user->getPairs('nodeleted|pofirst', $this->view->story->assignedTo);
+        //only get users who have review rights
+        $users = $this->user->loadModel('user')->getReviewUsers($users);
+
         /* Assign. */
         $this->view->title      = $this->lang->story->change . "STORY" . $this->lang->colon . $this->view->story->title;
-        $this->view->users      = $this->user->getPairs('nodeleted|pofirst', $this->view->story->assignedTo);
+        $this->view->users      = $users;
         $this->view->position[] = $this->lang->story->change;
         $this->view->needReview = ($this->app->user->account == $this->view->product->PO || $this->config->story->needReview == 0) ? "checked='checked'" : "";
         $this->display();
@@ -692,12 +690,7 @@ class story extends control
 
         $users = $this->loadModel('user')->getPairs('nodeleted', "$story->lastEditedBy,$story->openedBy");
         //only get users who have review rights
-        foreach ($users as $account => $name) {
-            $rights = $this->loadModel('user')->authorize($account)['rights'];
-            if(!empty($account) && $account !== 'closed' && empty($rights['story']['review'])) {
-                unset($users[$account]);
-            }
-        }
+        $users = $this->loadModel('user')->getReviewUsers($users);
 
         $this->view->users = $users;
 
