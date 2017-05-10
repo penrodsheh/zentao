@@ -366,11 +366,20 @@ class story extends control
   
         /* Assign. */
         $story   = $this->story->getById($storyID, 0, true);
+
+        $users = $this->user->getPairs('nodeleted|pofirst', "$story->assignedTo,$story->openedBy,$story->closedBy");
+        //only get users who have review rights
+        foreach ($users as $account => $name) {
+            $rights = $this->loadModel('user')->authorize($account)['rights'];
+            if(!empty($account) && $account !== 'closed' && empty($rights['story']['review'])) {
+                unset($users[$account]);
+            }
+        }
         $product = $this->loadModel('product')->getById($story->product);
         $this->view->title      = $this->lang->story->edit . "STORY" . $this->lang->colon . $this->view->story->title;
         $this->view->position[] = $this->lang->story->edit;
         $this->view->story      = $story;
-        $this->view->users      = $this->user->getPairs('nodeleted|pofirst', "$story->assignedTo,$story->openedBy,$story->closedBy");
+        $this->view->users      = $users;
         $this->view->product    = $product;
         $this->view->branches   = $product->type == 'normal' ? array() : $this->loadModel('branch')->getPairs($story->product);
         $this->display();
@@ -680,7 +689,17 @@ class story extends control
         $this->view->product = $product;
         $this->view->story   = $story;
         $this->view->actions = $this->action->getList('story', $storyID);
-        $this->view->users   = $this->loadModel('user')->getPairs('nodeleted', "$story->lastEditedBy,$story->openedBy");
+
+        $users = $this->loadModel('user')->getPairs('nodeleted', "$story->lastEditedBy,$story->openedBy");
+        //only get users who have review rights
+        foreach ($users as $account => $name) {
+            $rights = $this->loadModel('user')->authorize($account)['rights'];
+            if(!empty($account) && $account !== 'closed' && empty($rights['story']['review'])) {
+                unset($users[$account]);
+            }
+        }
+
+        $this->view->users = $users;
 
         /* Get the affcected things. */
         $this->story->getAffectedScope($this->view->story);
