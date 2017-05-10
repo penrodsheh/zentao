@@ -2287,6 +2287,9 @@ class storyModel extends model
             case 'estimate':
                 echo $story->estimate;
                 break;
+            case 'busiRank':
+                echo $story->busiRank;
+                break;
             case 'stage':
                 echo "<div" . (isset($storyStages[$story->id]) ? " class='popoverStage' data-toggle='popover' data-placement='bottom' data-target='\$next'" : '') . "'>";
                 echo $this->lang->story->stageList[$story->stage];

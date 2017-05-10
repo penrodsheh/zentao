@@ -84,6 +84,11 @@ $config->story->datatable->fieldList['estimate']['fixed']    = 'no';
 $config->story->datatable->fieldList['estimate']['width']    = '80';
 $config->story->datatable->fieldList['estimate']['required'] = 'no';
 
+$config->story->datatable->fieldList['busiRank']['title']    = 'busiRank';
+$config->story->datatable->fieldList['busiRank']['fixed']    = 'no';
+$config->story->datatable->fieldList['busiRank']['width']    = '80';
+$config->story->datatable->fieldList['busiRank']['required'] = 'no';
+
 $config->story->datatable->fieldList['stage']['title']    = 'stageAB';
 $config->story->datatable->fieldList['stage']['fixed']    = 'no';
 $config->story->datatable->fieldList['stage']['width']    = '90';
