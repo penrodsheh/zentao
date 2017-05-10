@@ -125,10 +125,13 @@ function computeDaysDelta(date1, date2)
  */
 function getStoryRank(story)
 {
-    link = createLink('story', 'ajaxComputeRank', 'storyID=' + $('#story').val());
+    story = story || $('#story').val();
+    link = createLink('story', 'ajaxComputeRank', 'storyID=' + story);
     $.get(link,function (rank) {
         $('#story').data('rank', rank);
-        setTaskScore(rank);
+        if(typeof(oldStoryID) === "undefined") {
+            setTaskScore(rank);
+        }
     })
 }
 
@@ -138,8 +141,9 @@ function getStoryRank(story)
 function setTaskScore(storyRank)
 {
     var storyRank = storyRank || parseInt($('#story').data('rank') || 0);
-    var level = parseInt(storyRank) + parseInt($('#techRank').val());
-    $('#level').val(level).data('score', levels[level]);
+    var level = parseInt(storyRank) + parseInt($('#techRank').val() || 0);
+    var levelScore = level > 0 ? levels[level] : 0;
+    $('#level').val(level).data('score', levelScore);
     estTaskScore();
 }
 
@@ -150,7 +154,7 @@ function setTaskScore(storyRank)
  */
 function estTaskScore(hours, index)
 {
-    if(typeof(index) == "undefined")
+    if(typeof(index) === "undefined")
     {
         var level = parseInt($('#level').data('score') || 0);
         var hours = hours || parseInt($('#estimate').val());

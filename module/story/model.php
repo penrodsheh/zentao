@@ -182,7 +182,7 @@ class storyModel extends model
             $data->verify  = $story->verify;
             $this->dao->insert(TABLE_STORYSPEC)->data($data)->exec();
 
-            if($projectID != 0) 
+            if($projectID != 0)
             {
                 $this->dao->insert(TABLE_PROJECTSTORY)
                     ->set('project')->eq($projectID)

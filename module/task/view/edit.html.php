@@ -128,11 +128,16 @@
           </tr>
           <tr>
             <th><?php echo $lang->task->level;?></th>
-            <td><?php echo html::input('level', '', "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?></td>
+            <td><?php echo html::input('level', $task->level, "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?></td>
           </tr>
           <tr>
             <th><?php echo $lang->task->score;?></th>
-            <td><?php echo html::input('score', $task->score, "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?></td>
+            <td>
+              <div class='input-group'>
+                <?php echo html::input('score', $task->score, "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?>
+                <span class="input-group-btn"><?php echo  html::commonButton("<i class='icon icon-refresh'></i>", 'onclick=setTaskScore()');?></span>
+              </div>
+            </td>
           </tr>
           <tr>
             <th><?php echo $lang->task->consumed;?></th>
