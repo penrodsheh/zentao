@@ -77,6 +77,11 @@ $config->task->datatable->fieldList['status']['fixed']    = 'no';
 $config->task->datatable->fieldList['status']['width']    = '60';
 $config->task->datatable->fieldList['status']['required'] = 'no';
 
+$config->task->datatable->fieldList['techRank']['title']    = 'techRank';
+$config->task->datatable->fieldList['techRank']['fixed']    = 'no';
+$config->task->datatable->fieldList['techRank']['width']    = '60';
+$config->task->datatable->fieldList['techRank']['required'] = 'no';
+
 $config->task->datatable->fieldList['estimate']['title']    = 'estimateAB';
 $config->task->datatable->fieldList['estimate']['fixed']    = 'no';
 $config->task->datatable->fieldList['estimate']['width']    = '40';

@@ -1828,6 +1828,9 @@ class taskModel extends model
                 $storyChanged = ($task->storyStatus == 'active' and $task->latestStoryVersion > $task->storyVersion);
                 $storyChanged ? print("<span class='warning'>{$this->lang->story->changed}</span> ") : print($this->lang->task->statusList[$task->status]);
                 break;
+            case 'techRank':
+                echo $task->techRank;
+                break;
             case 'estimate':
                 echo round($task->estimate, 1);
                 break;

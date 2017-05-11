@@ -86,7 +86,7 @@ $config->story->datatable->fieldList['estimate']['required'] = 'no';
 
 $config->story->datatable->fieldList['busiRank']['title']    = 'busiRank';
 $config->story->datatable->fieldList['busiRank']['fixed']    = 'no';
-$config->story->datatable->fieldList['busiRank']['width']    = '80';
+$config->story->datatable->fieldList['busiRank']['width']    = '60';
 $config->story->datatable->fieldList['busiRank']['required'] = 'no';
 
 $config->story->datatable->fieldList['stage']['title']    = 'stageAB';
