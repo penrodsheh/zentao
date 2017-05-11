@@ -263,6 +263,11 @@ class story extends control
         $sourceList          = (array)$this->lang->story->sourceList;
         $sourceList['ditto'] = $this->lang->story->ditto;
 
+        $users = $this->loadModel('user')->getPairs('nodeleted|pdfirst|noclosed');
+        //only get users who have review rights
+        $assignedToList = $this->user->getReviewUsers($users);
+        $assignedToList['ditto'] = $this->lang->story->ditto;
+
         /* Set Custom*/
         foreach(explode(',', $this->config->story->list->customBatchCreateFields) as $field)
         {
@@ -300,7 +305,8 @@ class story extends control
         $this->view->spec             = $spec;
         $this->view->branch           = $branch;
         $this->view->branches         = $this->loadModel('branch')->getPairs($productID);
-        $this->view->needReview       = ($this->app->user->account == $product->PO || $this->config->story->needReview == 0) ? 0 : 1;
+        $this->view->assignedToList   = $assignedToList;
+        //$this->view->needReview       = ($this->app->user->account == $product->PO || $this->config->story->needReview == 0) ? 0 : 1;
 
         $this->display();
     }

@@ -38,12 +38,12 @@ $config->story->list->exportFields      = '
     childStories, linkStories, duplicateStory, files';
 
 $config->story->list->customCreateFields      = 'source,verify,pri,estimate,mailto,keywords';
-$config->story->list->customBatchCreateFields = 'module,plan,source,spec,verify,pri,estimate,review,keywords';
+$config->story->list->customBatchCreateFields = 'module,plan,source,spec,verify,pri,estimate,assignedTo,keywords';
 $config->story->list->customBatchEditFields   = 'module,plan,estimate,pri,assignedTo,source,stage,closedBy,closedReason,keywords';
 
 $config->story->custom = new stdclass();
 $config->story->custom->createFields      = $config->story->list->customCreateFields;
-$config->story->custom->batchCreateFields = 'module,plan,spec,pri,estimate,review';
+$config->story->custom->batchCreateFields = 'module,plan,spec,pri,estimate,assignedTo';
 $config->story->custom->batchEditFields   = 'module,plan,estimate,pri,source,stage,closedBy,closedReason';
 
 $config->story->datatable = new stdclass();

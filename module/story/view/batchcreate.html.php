@@ -38,7 +38,7 @@ if($this->story->checkForceReview()) unset($visibleFields['review']);
   <table class='table table-form table-fixed with-border'> 
     <thead>
       <tr class='text-center'>
-        <th class='w-30px'><?php echo $lang->idAB;?></th> 
+        <th class='w-30px'><?php echo $lang->idAB;?></th>
         <th class='w-120px<?php echo zget($visibleFields, $product->type, ' hidden')?>'><?php echo $lang->product->branch;?></th>
         <th class='w-p15<?php echo zget($visibleFields, 'module', ' hidden')?>'><?php echo $lang->story->module;?></th>
         <th class='w-p15<?php echo zget($visibleFields, 'plan', ' hidden')?>'><?php echo $lang->story->plan;?></th>
@@ -48,17 +48,18 @@ if($this->story->checkForceReview()) unset($visibleFields['review']);
         <th class='w-p15<?php echo zget($visibleFields, 'verify', ' hidden')?>'><?php echo $lang->story->verify;?></th>
         <th class='w-80px<?php echo zget($visibleFields, 'pri', ' hidden')?>'><?php echo $lang->story->pri;?></th>
         <th class='w-80px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->story->estimate;?></th>
-        <th class='w-70px<?php echo zget($visibleFields, 'review', ' hidden')?>'><?php echo $lang->story->review;?></th>
+        <th class='w-120px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->story->assignedTo;?> <span class='required'></span></th>
         <th class='w-100px<?php echo zget($visibleFields, 'keywords', ' hidden')?>'><?php echo $lang->story->keywords;?></th>
       </tr>
     </thead>
     <?php $i = 0; ?>
     <?php if(!empty($titles)):?>
     <?php foreach($titles as $storyTitle => $fileName):?>
-    <?php $moduleID = $i == 0 ? $moduleID : 'ditto';?>
-    <?php $planID   = $i == 0 ? '' : 'ditto';?>
-    <?php $pri      = $i == 0 ? '' : 'ditto';?>
-    <?php $source   = $i == 0 ? '' : 'ditto';?>
+    <?php $moduleID   = $i == 0 ? $moduleID : 'ditto';?>
+    <?php $planID     = $i == 0 ? '' : 'ditto';?>
+    <?php $pri        = $i == 0 ? '' : 'ditto';?>
+    <?php $source     = $i == 0 ? '' : 'ditto';?>
+    <?php $assignedTo = $i == 0 ? '' : 'ditto';?>
     <tr class='text-center'>
       <td><?php echo $i+1;?></td>
       <td class='text-left<?php echo zget($visibleFields, $product->type, ' hidden')?>'><?php echo html::select("branch[$i]", $branches, $branch, "class='form-control' onchange='setModuleAndPlan(this.value, $productID, $i)'");?></td>
@@ -75,7 +76,7 @@ if($this->story->checkForceReview()) unset($visibleFields['review']);
       <td class='<?php echo zget($visibleFields, 'verify', 'hidden')?>'><?php echo html::textarea("verify[$i]", '', "rows='1' class='form-control autosize'");?></td>
       <td class='text-left<?php echo zget($visibleFields, 'pri', ' hidden')?>' style='overflow:visible'><?php echo html::select("pri[$i]", $priList, $pri, "class='form-control'");?></td>
       <td class='<?php echo zget($visibleFields, 'estimate', 'hidden')?>'><?php echo html::input("estimate[$i]", $estimate, "class='form-control' autocomplete='off'");?></td>
-      <td class='<?php echo zget($visibleFields, 'review', 'hidden')?>'><?php echo html::select("needReview[$i]", $lang->story->reviewList, $needReview, "class='form-control'");?></td>
+      <td class='text-left<?php echo zget($visibleFields, 'assignedTo', 'hidden')?>' style='overflow:visible'><?php echo html::select("assignedTo[$i]",$assignedToList, $assignedTo, "class='form-control chosen'");?></td>
       <td class='<?php echo zget($visibleFields, 'keywords', 'hidden')?>'><?php echo html::input("keywords[$i]", '', "class='form-control' autocomplete='off'");?></td>
     </tr>
     <?php $i++;?>
@@ -84,10 +85,11 @@ if($this->story->checkForceReview()) unset($visibleFields['review']);
     <?php endif;?>
     <?php $nextStart = $i;?>
     <?php for($i = $nextStart; $i < $config->story->batchCreate; $i++):?>
-    <?php $moduleID = $i - $nextStart == 0 ? $moduleID : 'ditto';?>
-    <?php $planID   = $i - $nextStart == 0 ? '' : 'ditto';?>
-    <?php $pri      = $i - $nextStart == 0 ? '' : 'ditto';?>
-    <?php $source   = $i - $nextStart == 0 ? '' : 'ditto';?>
+    <?php $moduleID   = $i - $nextStart == 0 ? $moduleID : 'ditto';?>
+    <?php $planID     = $i - $nextStart == 0 ? '' : 'ditto';?>
+    <?php $pri        = $i - $nextStart == 0 ? '' : 'ditto';?>
+    <?php $source     = $i - $nextStart == 0 ? '' : 'ditto';?>
+    <?php $assignedTo = $i - $nextStart == 0 ? '' : 'ditto';?>
     <tr class='text-center'>
       <td><?php echo $i+1;?></td>
       <td class='text-left<?php echo zget($visibleFields, $product->type, ' hidden')?>'><?php echo html::select("branch[$i]", $branches, $branch, "class='form-control' onchange='setModuleAndPlan(this.value, $productID, $i)'");?></td>
@@ -104,7 +106,7 @@ if($this->story->checkForceReview()) unset($visibleFields['review']);
       <td class='<?php echo zget($visibleFields, 'verify', 'hidden')?>'><?php echo html::textarea("verify[$i]", '', "rows='1' class='form-control autosize'");?></td>
       <td class='text-left<?php echo zget($visibleFields, 'pri', ' hidden')?>' style='overflow:visible'><?php echo html::select("pri[$i]", $priList, $pri, "class='form-control'");?></td>
       <td class='<?php echo zget($visibleFields, 'estimate', 'hidden')?>'><?php echo html::input("estimate[$i]", $estimate, "class='form-control' autocomplete='off'");?></td>
-      <td class='<?php echo zget($visibleFields, 'review', 'hidden')?>'><?php echo html::select("needReview[$i]", $lang->story->reviewList, $needReview, "class='form-control'");?></td>
+      <td class='text-left<?php echo zget($visibleFields, 'assignedTo', 'hidden')?>' style='overflow:visible'><?php echo html::select("assignedTo[$i]",$assignedToList, $assignedTo, "class='form-control chosen'");?></td>
       <td class='<?php echo zget($visibleFields, 'keywords', 'hidden')?>'><?php echo html::input("keywords[$i]", '', "class='form-control' autocomplete='off'");?></td>
     </tr>  
     <?php endfor;?>
@@ -129,7 +131,7 @@ if($this->story->checkForceReview()) unset($visibleFields['review']);
       <td class='<?php echo zget($visibleFields, 'verify', ' hidden')?>'><?php echo html::textarea("verify[%s]", '', "rows='1' class='form-control autosize'");?></td>
       <td class='text-left<?php echo zget($visibleFields, 'pri', ' hidden')?>' style='overflow:visible'><?php echo html::select("pri[%s]", $priList, $pri, "class='form-control'");?></td>
       <td class='<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo html::input("estimate[%s]", $estimate, "class='form-control autocomplete='off''");?></td>
-      <td class='<?php echo zget($visibleFields, 'review', ' hidden')?>'><?php echo html::select("needReview[%s]", $lang->story->reviewList, $needReview, "class='form-control'");?></td>
+      <td class='text-left<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>' style='overflow:visible'><?php echo html::select("assignedTo[%s]",$assignedToList, $assignedTo, "style='class='form-control chosen'");?></td>
       <td class='<?php echo zget($visibleFields, 'keywords', ' hidden')?>'><?php echo html::input("keywords[%s]", '', "class='form-control autocomplete='off''");?></td>
     </tr>
   </tbody>

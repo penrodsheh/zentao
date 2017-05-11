@@ -254,40 +254,47 @@ class storyModel extends model
         $plan   = 0;
         $pri    = 0;
         $source = '';
+        $assignedTo = '';
         for($i = 0; $i < $batchNum; $i++)
         {
             $module = $stories->module[$i] == 'ditto' ? $module : $stories->module[$i];
             $plan   = $stories->plan[$i]   == 'ditto' ? $plan   : $stories->plan[$i];
             $pri    = $stories->pri[$i]    == 'ditto' ? $pri    : $stories->pri[$i];
             $source = $stories->source[$i] == 'ditto' ? $source : $stories->source[$i];
+            $assignedTo = $stories->assignedTo[$i] == 'ditto' ? $assignedTo : $stories->assignedTo[$i];
             $stories->module[$i] = (int)$module;
             $stories->plan[$i]   = $plan;
             $stories->pri[$i]    = (int)$pri;
             $stories->source[$i] = $source;
+            $stories->assignedTo[$i] = $assignedTo;
         }
 
         if(isset($stories->uploadImage)) $this->loadModel('file');
 
-        $forceReview = $this->checkForceReview();
+        //must to review according to require
+        //$forceReview = $this->checkForceReview();
         for($i = 0; $i < $batchNum; $i++)
         {
             if(!empty($stories->title[$i]))
             {
                 $data = new stdclass();
-                $data->branch     = $stories->branch[$i];
-                $data->module     = $stories->module[$i];
-                $data->plan       = $stories->plan[$i];
-                $data->color      = $stories->color[$i];
-                $data->title      = $stories->title[$i];
-                $data->source     = $stories->source[$i];
-                $data->pri        = $stories->pri[$i];
-                $data->estimate   = $stories->estimate[$i];
-                $data->status     = ($stories->needReview[$i] == 0 and !$forceReview) ? 'active' : 'draft';
-                $data->keywords   = $stories->keywords[$i];
-                $data->product    = $productID;
-                $data->openedBy   = $this->app->user->account;
-                $data->openedDate = $now;
-                $data->version    = 1;
+                $data->branch       = $stories->branch[$i];
+                $data->module       = $stories->module[$i];
+                $data->plan         = $stories->plan[$i];
+                $data->color        = $stories->color[$i];
+                $data->title        = $stories->title[$i];
+                $data->source       = $stories->source[$i];
+                $data->pri          = $stories->pri[$i];
+                $data->estimate     = $stories->estimate[$i];
+                $data->assignedTo   = $stories->assignedTo[$i];
+                $data->assignedDate = $now;
+                //$data->status     = ($stories->needReview[$i] == 0 and !$forceReview) ? 'active' : 'draft';
+                $data->status       = 'draft';
+                $data->keywords     = $stories->keywords[$i];
+                $data->product      = $productID;
+                $data->openedBy     = $this->app->user->account;
+                $data->openedDate   = $now;
+                $data->version      = 1;
 
                 $this->dao->insert(TABLE_STORY)->data($data)->autoCheck()
                     ->batchCheck($this->config->story->create->requiredFields, 'notempty')
