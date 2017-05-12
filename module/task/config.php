@@ -8,7 +8,7 @@ $config->task->start    = new stdclass();
 $config->task->finish   = new stdclass();
 $config->task->activate = new stdclass();
 
-$config->task->create->requiredFields      = 'name,type,story,estimate';
+$config->task->create->requiredFields      = 'name,type,story,estimate,score';
 $config->task->edit->requiredFields        = $config->task->create->requiredFields;
 $config->task->start->requiredFields       = 'estimate';
 $config->task->finish->requiredFields      = 'consumed';
