@@ -301,8 +301,10 @@ class storyModel extends model
                     ->exec();
                 if(dao::isError()) 
                 {
-                    echo js::error(dao::getError());
-                    die(js::reload('parent'));
+                    return;
+//                    forbidden to reload page when error happen. (original zentao's problem)
+//                    echo js::error(dao::getError());
+//                    die(js::reload('parent'));
                 }
 
                 $storyID = $this->dao->lastInsertID();
