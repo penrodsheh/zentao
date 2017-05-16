@@ -624,6 +624,7 @@ class storyModel extends model
     {
         if($this->post->result == false)   die(js::alert($this->lang->story->mustChooseResult));
         if($this->post->result == 'revert' and $this->post->preVersion == false) die(js::alert($this->lang->story->mustChoosePreVersion));
+        if($this->post->reviewedBy == false) die(js::alert($this->lang->story->mustChooseReviewedBy));
 
         $oldStory = $this->dao->findById($storyID)->from(TABLE_STORY)->fetch();
         $now      = helper::now();
@@ -689,6 +690,7 @@ class storyModel extends model
             if($oldStory->status != 'draft' and $oldStory->status != 'changed') continue;
 
             $story = new stdClass();
+            $story->reviewedBy     = $this->app->user->account;
             $story->reviewedDate   = $date;
             $story->lastEditedBy   = $this->app->user->account;
             $story->lastEditedDate = $now;

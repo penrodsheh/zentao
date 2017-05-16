@@ -370,15 +370,16 @@ class story extends control
 
         $users = $this->user->getPairs('nodeleted|pofirst', "$story->assignedTo,$story->openedBy,$story->closedBy");
         //only get users who have review rights
-        $users = $this->user->loadModel('user')->getReviewUsers($users);
+        $reviewUsers = $this->user->loadModel('user')->getReviewUsers($users);
 
         $product = $this->loadModel('product')->getById($story->product);
-        $this->view->title      = $this->lang->story->edit . "STORY" . $this->lang->colon . $this->view->story->title;
-        $this->view->position[] = $this->lang->story->edit;
-        $this->view->story      = $story;
-        $this->view->users      = $users;
-        $this->view->product    = $product;
-        $this->view->branches   = $product->type == 'normal' ? array() : $this->loadModel('branch')->getPairs($story->product);
+        $this->view->title       = $this->lang->story->edit . "STORY" . $this->lang->colon . $this->view->story->title;
+        $this->view->position[]  = $this->lang->story->edit;
+        $this->view->story       = $story;
+        $this->view->users       = $users;
+        $this->view->reviewUsers = $reviewUsers;
+        $this->view->product     = $product;
+        $this->view->branches    = $product->type == 'normal' ? array() : $this->loadModel('branch')->getPairs($story->product);
         $this->display();
     }
 

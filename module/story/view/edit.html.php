@@ -162,7 +162,7 @@
           <?php if($story->reviewedBy):?>
           <tr>
             <th><?php echo $lang->story->reviewedBy;?></th>
-            <td><?php echo html::select('reviewedBy[]', $users, str_replace(' ', '', $story->reviewedBy), 'class="form-control chosen" multiple');?></td>
+            <td><?php echo html::select('reviewedBy[]', $reviewUsers, str_replace(' ', '', $story->reviewedBy), 'class="form-control chosen" multiple');?></td>
           </tr>
           <?php endif;?>
           <?php if($story->status == 'closed'):?>
