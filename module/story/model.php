@@ -2188,10 +2188,12 @@ class storyModel extends model
      */
     public static function isClickable($story, $action)
     {
+        global $app;
+
         $action = strtolower($action);
 
         if($action == 'change')   return $story->status != 'closed';
-        if($action == 'review')   return $story->status == 'draft' or $story->status == 'changed';
+        if($action == 'review')   return ($story->status == 'draft' or $story->status == 'changed') && ($story->assignedTo == $app->user->account);
         if($action == 'close')    return $story->status != 'closed';
         if($action == 'activate') return $story->status == 'closed';
 
