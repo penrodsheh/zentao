@@ -69,7 +69,6 @@ function loadProjectMembers(projectID)
 function setPreview(){}
 
 $(document).ready(function() {
-    getStoryRank();
     $('#days,#estimate,#score').keydown(function (e) {
         var code = parseInt(e.keyCode);
         if (code >= 96 && code <= 105 || code >= 48 && code <= 57 || code == 8) {
@@ -77,8 +76,14 @@ $(document).ready(function() {
         } else {
             return false;
         }
-    })
+    });
+
     $("#estimate").keyup(function () {
         estTaskScore(this.value);
+    });
+
+    link = createLink('story', 'ajaxComputeRank', 'storyID=' + $('#story').val());
+    $.get(link,function (rank) {
+        $('#story').data('rank', rank);
     })
-})
+});

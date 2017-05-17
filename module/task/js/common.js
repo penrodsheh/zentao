@@ -129,9 +129,7 @@ function getStoryRank(story)
     link = createLink('story', 'ajaxComputeRank', 'storyID=' + story);
     $.get(link,function (rank) {
         $('#story').data('rank', rank);
-        if(typeof(oldStoryID) === "undefined") {
-            setTaskScore(rank);
-        }
+        setTaskScore(rank);
     })
 }
 
