@@ -132,7 +132,7 @@
           <?php endif;?>
           <tr>
             <th><?php echo $lang->story->pri;?></th>
-            <td><?php echo html::select('pri', $lang->story->priList, $story->pri, 'class=form-control');?></td>
+            <td><?php echo html::select('pri', $lang->story->priList, $story->pri, 'class=form-control disabled=disabled');?></td>
           </tr>
           <tr>
             <th><?php echo $lang->story->estimate;?></th>

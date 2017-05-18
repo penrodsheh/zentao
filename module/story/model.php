@@ -387,7 +387,7 @@ class storyModel extends model
         }
 
         $story = fixer::input('post')->stripTags($this->config->story->editor->change['id'], $this->config->allowedTags)->get();
-        if($story->spec != $oldStory->spec or $story->verify != $oldStory->verify or $story->title != $oldStory->title or $this->loadModel('file')->getCount()) $specChanged = true;
+        if($story->spec != $oldStory->spec or $story->verify != $oldStory->verify or $story->title != $oldStory->title or $story->pri != $oldStory->pri or $this->loadModel('file')->getCount()) $specChanged = true;
 
         $now   = helper::now();
         $story = fixer::input('post')
@@ -467,7 +467,7 @@ class storyModel extends model
             ->setIF($this->post->closedReason != false and $this->post->closedBy     == false, 'closedBy', $this->app->user->account)
             ->join('reviewedBy', ',')
             ->join('mailto', ',')
-            ->remove('linkStories,childStories,files,labels,comment')
+            ->remove('pri,linkStories,childStories,files,labels,comment')
             ->get();
         if(is_array($story->plan)) $story->plan = trim(join(',', $story->plan), ',');
         if(empty($_POST['product'])) $story->branch = $oldStory->branch;
@@ -552,7 +552,7 @@ class storyModel extends model
                 $story->color          = $data->colors[$storyID];
                 $story->title          = $data->titles[$storyID];
                 $story->estimate       = $data->estimates[$storyID];
-                $story->pri            = $data->pris[$storyID];
+                //$story->pri            = $data->pris[$storyID]; change of pir must to via change
                 $story->assignedTo     = $data->assignedTo[$storyID];
                 $story->assignedDate   = $oldStory == $data->assignedTo[$storyID] ? $oldStory->assignedDate : $now;
                 $story->module         = $data->modules[$storyID];
@@ -687,7 +687,7 @@ class storyModel extends model
         foreach($storyIDList as $storyID)
         {
             $oldStory = $oldStories[$storyID];
-            if($oldStory->status != 'draft' and $oldStory->status != 'changed') continue;
+            if(($oldStory->status != 'draft' and $oldStory->status != 'changed') or ($oldStory->assignedTo != $this->app->user->account)) continue;
 
             $story = new stdClass();
             $story->reviewedBy     = $this->app->user->account;

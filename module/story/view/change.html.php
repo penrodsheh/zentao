@@ -31,7 +31,25 @@
       </tr>
       <tr>
         <th><?php echo $lang->story->title;?></th>
-        <td><?php echo html::input('title', $story->title, 'class="form-control"');?></td>
+        <td>
+            <div class='row-table'>
+                <div class='col-table'>
+                    <?php echo html::input('title', $story->title, 'class="form-control"');?>
+                </div>
+                <div class='col-table w-100px'>
+                    <div class="input-group">
+                        <span class='input-group-addon fix-border br-0'><?php echo $lang->story->pri;?></span>
+                        <div class='input-group-btn dropdown-pris' data-set='0,1,2,3,4'>
+                            <button type='button' class='btn dropdown-toggle br-0' data-toggle='dropdown'>
+                                <span class='pri-text'></span> &nbsp;<span class='caret'></span>
+                            </button>
+                            <ul class='dropdown-menu pull-right'></ul>
+                            <?php echo html::select('pri', (array)$lang->story->priList, $story->pri, "class='hide'");?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
       </tr>
       <tr>
         <th><?php echo $lang->story->spec;?></th>
