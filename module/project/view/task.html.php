@@ -50,12 +50,12 @@ js::set('browseType', $browseType);
     ?>
       <tfoot>
         <tr>
-          <?php if(!isset($columns)) $columns = ($this->cookie->windowWidth > $this->config->wideSize ? 15 : 13) - ($project->type == 'sprint' ? 0 : 1);?>
+          <?php if(!isset($columns)) $columns = ($this->cookie->windowWidth > $this->config->wideSize ? 16 : 14) - ($project->type == 'sprint' ? 0 : 1);?>
           <td colspan='<?php echo $columns;?>'>
             <div class='table-actions clearfix'>
             <?php 
             $canBatchEdit         = common::hasPriv('task', 'batchEdit');
-            $canBatchScore         = common::hasPriv('task', 'batchScore');
+            $canBatchScore        = common::hasPriv('task', 'batchScore');
             $canBatchClose        = (common::hasPriv('task', 'batchClose') && strtolower($browseType) != 'closedBy');
             $canBatchChangeModule = common::hasPriv('task', 'batchChangeModule');
             $canBatchAssignTo     = common::hasPriv('task', 'batchAssignTo');

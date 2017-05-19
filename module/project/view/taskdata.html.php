@@ -44,6 +44,7 @@
           <?php $columns++; ?>
           <?php endif;?>
           <th class='w-80px' title='<?php echo $lang->task->score?>'><?php echo $lang->task->score;?></th>
+          <?php $columns++; ?>
           <th class='w-150px {sorter:false}'><?php echo $lang->actions;?></th>
         </tr>
       </thead>
