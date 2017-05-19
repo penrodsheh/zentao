@@ -39,7 +39,7 @@ $config->task->exportFields = '
     lastEditedBy, lastEditedDate,files
     ';
 $config->task->customCreateFields      = 'story,estStarted,deadline,mailto,pri,estimate';
-$config->task->customBatchCreateFields = 'module,story,assignedTo,estimate,estStarted,deadline,desc,pri';
+$config->task->customBatchCreateFields = 'module,assignedTo,estStarted,deadline,desc,pri';
 $config->task->customBatchEditFields   = 'module,story,assignedTo,status,pri,record,left,estStarted,deadline,techRank,level,days,finishedBy,canceledBy,closedBy,closedReason,score';
 $config->task->customBatchScoreFields  = 'module,assignedTo,status,pri,estimate,record,left,estStarted,deadline,finishedBy,canceledBy,closedBy,closedReason,score,realScore';
 

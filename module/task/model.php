@@ -1721,7 +1721,7 @@ class taskModel extends model
      */
     public function getLevels()
     {
-        $levels = $this->dao->select('id, level, score')->from('zt_level')->fetchPairs();
+        $levels = $this->dao->select('id, level, score')->from(TABLE_LEVEL)->fetchPairs();
         foreach($levels as $level => $score)
         {
             $scores[$level] = $score;
@@ -1731,7 +1731,7 @@ class taskModel extends model
 
     public function getLevelScore($level)
     {
-        return $this->dao->select('score')->from('zt_level')->where('level')->eq((int)$level)->fetch('score');
+        return $this->dao->select('score')->from(TABLE_LEVEL)->where('level')->eq((int)$level)->fetch('score');
     }
 
     /**

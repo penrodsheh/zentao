@@ -39,11 +39,11 @@ if($hiddenStory and isset($visibleFields['story'])) $colspan -= 1;
       <tr class='text-center'>
         <th class='w-30px'><?php echo $lang->idAB;?></th> 
         <th class='w-150px<?php echo zget($visibleFields, 'module', ' hidden')?>'><?php echo $lang->task->module?></th>
-        <th class='w-200px<?php echo zget($visibleFields, 'story', ' hidden'); echo $hiddenStory;?>'><?php echo $lang->task->story;?></th>
+        <th class='w-200px<?php echo $hiddenStory;?>'><?php echo $lang->task->story;?> <span class='required'></span></th>
         <th><?php echo $lang->task->name;?> <span class='required'></span></th>
         <th class='w-80px'><?php echo $lang->typeAB;?> <span class='required'></span></th>
         <th class='w-150px<?php echo zget($visibleFields, 'assignedTo', ' hidden')?>'><?php echo $lang->task->assignedTo;?></th>
-        <th class='w-50px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->task->estimateAB;?></th>
+        <th class='w-50px<?php echo zget($visibleFields, 'estimate', ' hidden')?>'><?php echo $lang->task->estimateAB;?> <span class='required'></span></th>
         <th class='w-100px<?php echo zget($visibleFields, 'estStarted', ' hidden')?>'><?php echo $lang->task->estStarted;?></th>
         <th class='w-100px<?php echo zget($visibleFields, 'deadline', ' hidden')?>'><?php echo $lang->task->deadline;?></th>
         <th class='w-p20<?php echo zget($visibleFields, 'desc', ' hidden')?>'><?php echo $lang->task->desc;?></th>
@@ -75,7 +75,7 @@ if($hiddenStory and isset($visibleFields['story'])) $colspan -= 1;
     <tr>
       <td class='text-center'><?php echo $i+1;?></td>
       <td <?php echo zget($visibleFields, 'module', "class='hidden'")?> style='overflow:visible'><?php echo html::select("module[$i]", $modules, $module, "class='form-control chosen' onchange='setStories(this.value, $project->id, $i)'")?></td>
-      <td <?php echo zget($visibleFields, 'story', "class='hidden'"); echo $hiddenStory;?> style='overflow: visible'>
+      <td <?php echo $hiddenStory;?> style='overflow: visible'>
         <div class='input-group'>
           <?php echo html::select("story[$i]", $stories, $currentStory, "class='form-control chosen' onchange='setStoryRelated($i)'");?>
           <span class='input-group-btn'>
