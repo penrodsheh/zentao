@@ -128,14 +128,17 @@
           </tr>
           <tr>
             <th><?php echo $lang->task->level;?></th>
-            <td><?php echo html::input('level', $task->level, "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?></td>
+            <td><?php echo html::input('level', $task->level, "data-score='{$levels[$task->level]}' class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?></td>
           </tr>
           <tr>
             <th><?php echo $lang->task->score;?></th>
             <td>
               <div class='input-group'>
-                <?php echo html::input('score', $task->score, "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off'");?>
+                <?php $canEditScore = common::hasPriv('task', 'editScore') ? '' : 'readonly=readonly'; ?>
+                <?php echo html::input('score', $task->score, "class='form-control' placeholder='{$lang->task->taskScore}' autocomplete='off' $canEditScore");?>
+                <?php if(empty($canEditScore)):?>
                 <span class="input-group-btn"><?php echo  html::commonButton("<i class='icon icon-refresh'></i>", 'onclick=setTaskScore()');?></span>
+                <?php endif ?>
               </div>
             </td>
           </tr>

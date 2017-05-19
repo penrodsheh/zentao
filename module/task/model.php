@@ -34,6 +34,7 @@ class taskModel extends model
             ->setIF(count($this->post->level), 'level', $this->post->level[0])
             ->setIF($this->post->estimate != false, 'left', $this->post->estimate)
             ->setIF($this->post->story != false, 'storyVersion', $this->loadModel('story')->getVersion($this->post->story))
+            ->setIF(!common::hasPriv('task', 'editScore'),'score',$this->computeScore($this->post->story,$this->post->techRank,$this->post->estimate)) // recompute score if user hasn't permission of editing score
             ->setDefault('openedBy',   $this->app->user->account)
             ->setDefault('openedDate', helper::now())
             ->stripTags($this->config->task->editor->create['id'], $this->config->allowedTags)
@@ -226,6 +227,7 @@ class taskModel extends model
             ->setIF($this->post->assignedTo != $oldTask->assignedTo, 'assignedDate', $now)
 
             ->setIF($this->post->status == 'wait' and $this->post->left == $oldTask->left and $this->post->consumed == 0, 'left', $this->post->estimate)
+            ->setIF(!common::hasPriv('task', 'editScore') && $this->post->story == $oldTask->story && $this->post->techRank == $oldTask->techRank && $this->post->estimate == $oldTask->estimate,'score', $oldTask->score) // keeping original score if user hasn't permission of editing score
 
             ->add('lastEditedBy',   $this->app->user->account)
             ->add('lastEditedDate', $now)
@@ -314,9 +316,6 @@ class taskModel extends model
             $prev['finishedBy'] = $data->finishedBys[$taskID];
             $prev['canceledBy'] = $data->canceledBys[$taskID];
             $prev['closedBy']   = $data->closedBys[$taskID];
-            $prev['level']      = $data->levels[$taskID];
-            $prev['days']       = $data->dayses[$taskID];
-            $prev['score']      = $data->scores[$taskID];
         }
 
         /* Initialize tasks from the post data.*/
@@ -350,7 +349,8 @@ class taskModel extends model
             $task->techRank       = $data->techRanks[$taskID];
             $task->level          = $data->levels[$taskID];
             $task->days           = $data->dayses[$taskID];
-            $task->score          = $data->scores[$taskID];
+//          $task->score          = $data->scores[$taskID];
+            $task->score          = (!common::hasPriv('task', 'editScore') && $data->techRanks[$taskID] == $oldTask->techRank && $data->estimates[$taskID] == $oldTask->estimate) ? $oldTask->score : $data->scores[$taskID]; // keeping original score if user hasn't permission of editing score
 
             if($data->consumeds[$taskID])
             {
@@ -1729,6 +1729,11 @@ class taskModel extends model
         return $scores;
     }
 
+    public function getLevelScore($level)
+    {
+        return $this->dao->select('score')->from('zt_level')->where('level')->eq((int)$level)->fetch('score');
+    }
+
     /**
      * Judge an action is clickable or not.
      * 
@@ -1974,5 +1979,13 @@ class taskModel extends model
         /* Send emails. */
         $this->mail->send($toList, 'TASK#' . $task->id . ' ' . $task->name . ' - ' . $projectName, $mailContent, $ccList);
         if($this->mail->isError()) trigger_error(join("\n", $this->mail->getError()));
+    }
+
+    public function computeScore($storyId, $techRank, $estimate)
+    {
+        $storyRank  = $this->loadModel('story')->getRank($storyId) ?: 0;
+        $levelScore = $this->getLevelScore((int)$storyRank + (int)$techRank) ?: 0;
+        $taskScore  = round($levelScore / 22 * $estimate / 8) ?: 0;
+        return $taskScore;
     }
 }

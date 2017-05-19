@@ -34,6 +34,7 @@ foreach(explode(',', $showFields) as $field)
     if($field)$visibleFields[$field] = '';
 }
 ?>
+<?php $canEditScore = common::hasPriv('task', 'editScore') ? '' : 'readonly=readonly'; ?>
 <form class='form-condensed' method='post' target='hiddenwin' action="<?php echo inLink('batchEdit', "projectID={$projectID}")?>">
   <table class='table table-form table-fixed with-border'>
     <thead>
@@ -92,24 +93,24 @@ foreach(explode(',', $showFields) as $field)
         <td><?php echo html::select("types[$taskID]",    $typeList, $tasks[$taskID]->type, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'status', "class='hidden'")?>><?php echo html::select("statuses[$taskID]", $statusList, $tasks[$taskID]->status, 'class=form-control');?></td>
         <td <?php echo zget($visibleFields, 'pri', "class='hidden'")?>><?php echo html::select("pris[$taskID]",     $priList, $tasks[$taskID]->pri, 'class=form-control');?></td>
-        <td <?php echo zget($visibleFields, 'estimate', "class='hidden'")?>><?php echo html::input("estimates[$taskID]", $tasks[$taskID]->estimate, "data-index='{$taskID}' class='form-control text-center' autocomplete='off'");?></td>
+        <td><?php echo html::input("estimates[$taskID]", $tasks[$taskID]->estimate, "data-index='{$taskID}' class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'record', "class='hidden'")?>><?php echo html::input("consumeds[$taskID]", '', "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'left', "class='hidden'")?>><?php echo html::input("lefts[$taskID]",     $tasks[$taskID]->left, "class='form-control text-center' autocomplete='off'");?></td>
         <td <?php echo zget($visibleFields, 'estStarted', "class='hidden'")?>><?php echo html::input("estStarteds[$taskID]", $tasks[$taskID]->estStarted, "class='form-control text-center form-date' onchange='computeWorkDays(this.id)'");?></td>
         <td <?php echo zget($visibleFields, 'deadline', "class='hidden'")?>><?php echo html::input("deadlines[$taskID]",     $tasks[$taskID]->deadline, "class='form-control text-center form-date' onchange='computeWorkDays(this.id)'");?></td>
         <td <?php echo zget($visibleFields, 'days', ' hidden')?>>
           <div class='input-group'>
-            <?php echo html::input("dayses[$taskID]",$tasks[$taskID]->days, "data-index='{$taskID}' style='ime-mode:disabled' class='form-control' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
+            <?php echo html::input("dayses[$taskID]",$tasks[$taskID]->days, "data-index='{$taskID}' style='ime-mode:disabled' class='form-control text-center' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
             <span class='input-group-addon'><?php echo $lang->project->day;?></span>
           </div>
         </td>
         <td <?php echo zget($visibleFields, 'techRank', ' hidden')?>><?php echo html::select("techRanks[$taskID]", $techRanks, $tasks[$taskID]->techRank, "class=form-control onchange='estTaskScore(0,$taskID)'");?></td>
-        <td <?php echo zget($visibleFields, 'level', ' hidden')?>><?php echo html::input("levels[$taskID]", $tasks[$taskID]->level, "data-score='{$tasks[$taskID]->levelScore}' class='form-control' readonly='readonly'");?></td>
+        <td <?php echo zget($visibleFields, 'level', ' hidden')?>><?php echo html::input("levels[$taskID]", $tasks[$taskID]->level, "data-score='{$tasks[$taskID]->levelScore}' class='form-control text-center' readonly='readonly'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'finishedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("finishedBys[$taskID]", $members, $tasks[$taskID]->finishedBy, "class='form-control chosen'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'canceledBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("canceledBys[$taskID]", $members, $tasks[$taskID]->canceledBy, "class='form-control chosen'");?></td>
         <td class='text-left<?php echo zget($visibleFields, 'closedBy', ' hidden')?>' style='overflow:visible'><?php echo html::select("closedBys[$taskID]",   $members, $tasks[$taskID]->closedBy, "class='form-control chosen'");?></td>
         <td <?php echo zget($visibleFields, 'closedReason', "class='hidden'")?>><?php echo html::select("closedReasons[$taskID]", $lang->task->reasonList, $tasks[$taskID]->closedReason, 'class=form-control');?></td>
-        <td <?php echo zget($visibleFields, 'score', "class='hidden'")?>><?php echo html::input("scores[$taskID]", $tasks[$taskID]->score, "maxlength='8' style='ime-mode:disabled' class='form-control text-center' autocomplete='off'");?></td>
+        <td <?php echo zget($visibleFields, 'score', "class='hidden'")?>><?php echo html::input("scores[$taskID]", $tasks[$taskID]->score, "maxlength='8' style='ime-mode:disabled' class='form-control text-center' autocomplete='off' $canEditScore");?></td>
       </tr>
       <?php endforeach;?>
     </tbody>

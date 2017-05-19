@@ -2488,4 +2488,15 @@ class storyModel extends model
         $this->mail->send($toList, 'STORY #' . $story->id . ' ' . $story->title . ' - ' . $productName, $mailContent, $ccList);
         if($this->mail->isError()) trigger_error(join("\n", $this->mail->getError()));
     }
+
+    /**
+     * @param $storyID
+     */
+    public function getRank($storyID)
+    {
+        $story = $this->getByID($storyID);
+        $pri = $story->pri > 0 ? abs($story->pri - count($this->lang->story->priList)) : 0;
+        $rank = $story->busiRank + ceil($pri/2);
+        return $rank;
+    }
 }

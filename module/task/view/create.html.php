@@ -171,7 +171,7 @@
                 <?php if(!$hiddenEstStarted or !$hiddenDeadline):?>
                     <div class='col-table' id='scoreRowCol'>
                         <div class='input-group' id='dataScoreGroup'>
-                            <?php echo html::input('level', '', "class='form-control' maxlength='3' readonly='readonly' autocomplete='off'");?>
+                            <?php echo html::input('level', '', "class='form-control' placeholder='{$lang->task->level}' maxlength='3' readonly='readonly' autocomplete='off'");?>
                             <span class='input-group-addon fix-border'><?php echo $lang->task->days;?></span>
                             <?php echo html::input('days', '', "class='form-control' placeholder='{$lang->task->days}' maxlength='3' autocomplete='off'");?>
                             <span class='input-group-addon'><?php echo $lang->project->day;?></span>
@@ -179,7 +179,8 @@
                                 <span class='input-group-addon fix-border'><?php echo $lang->task->score;?></span>
                             <?php endif;?>
                             <?php if(!$hiddenDeadline):?>
-                                <?php echo html::input('score', '', "class='form-control' placeholder='{$lang->task->score}' autocomplete='off'");?>
+                                <?php $canEditScore = common::hasPriv('task', 'editScore') ? '' : 'readonly=readonly'; ?>
+                                <?php echo html::input('score', '', "class='form-control' placeholder='{$lang->task->score}' autocomplete='off' $canEditScore");?>
                             <?php endif;?>
                         </div>
                     </div>
