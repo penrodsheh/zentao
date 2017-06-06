@@ -215,7 +215,10 @@
             ?>
             </td>
           </tr>
-
+          <tr>
+            <th><?php echo $lang->story->busiRank;?></th>
+            <td><?php echo $task->storyBusiRank;?></td>
+          </tr>
           <tr>
             <th><?php echo $lang->task->techRank;?></th>
             <td><?php echo $task->techRank;?></td>

@@ -62,6 +62,7 @@ $lang->task->hour              = '小时';
 $lang->task->consumedThisTime  = '工时';
 $lang->task->leftThisTime      = '剩余';
 $lang->task->datePlan          = '日程规划';
+$lang->task->busiRank          = '业务难度';
 $lang->task->techRank          = '技术难度';
 $lang->task->level             = '任务等级';
 $lang->task->days              = '可用工作日';
