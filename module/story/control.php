@@ -697,7 +697,7 @@ class story extends control
 
         $users = $this->loadModel('user')->getPairs('nodeleted', "$story->lastEditedBy,$story->openedBy");
         //only get users who have review rights
-        $users = $this->loadModel('user')->getReviewUsers($users);
+        //$users = $this->loadModel('user')->getReviewUsers($users);
 
         $this->view->users = $users;
 
