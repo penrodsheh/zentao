@@ -204,4 +204,19 @@ $(document).ready(function() {
         }
         return false;
     });
+    $('#techRank').tooltip({
+        animation: true,
+        placement: "top",
+        selector: false,
+        template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="text-align: left;min-width: 500px"></div></div>',   //tip插入代码
+        trigger: "hover focus",
+        title: "<h3>技术难度：</h3><p>任务的技术难度分为1到10级， 1—4级为简单任务，5—7级为中等难度任务，8—10级为复杂任务，具体等级由产品开发经理制定，参考标准为：</p><ul><li>简单任务：基础技术体系内的任务，不涉及新技术的，简单数据库调整的任务。</li><li>中等难度：基础技术体系内，涉及核心代码修改的，或者涉及框架代码和底层业务代码调整的，或者涉及数据库重大变更的任务。</li><li>复杂难度：现有技术满足不了，需要使用新技术实现的，或者变更框架体系的任务。</li></ul>",
+        delay: 0,
+        html: true,
+        container: false,
+        viewport: {
+            selector: 'body',
+            padding: 0
+        }
+    })
 });

@@ -36,6 +36,7 @@ var assignedTo = '<?php $story->lastEditedBy ? print($story->lastEditedBy) : pri
         <tr>
           <th><?php echo $lang->story->busiRank;?></th>
           <td><?php echo html::select('busiRank', $lang->story->busiRankList, $story->busiRank, 'class=form-control');?></td>
+          <td><i class="icon-question-sign icon-2x" data-toggle="tooltip" data-placement="right" style="font-family: ZenIcon;font-size:x-large"></i></td>
         </tr>
         <tr id='rejectedReasonBox' class='hide'>
           <th><?php echo $lang->story->rejectedReason;?></th>

@@ -121,7 +121,7 @@
                 <?php echo html::select('pri', (array)$lang->story->priList, $pri, "class='form-control minw-80px'");?> 
                 <?php else: ?>
                 <div class='input-group-btn dropdown-pris' data-set='0,1,2,3,4'>
-                  <button type='button' class='btn dropdown-toggle br-0' data-toggle='dropdown'>
+                  <button type='button' class='btn dropdown-toggle br-0' id="btnPri" data-toggle='dropdown'>
                     <span class='pri-text'></span> &nbsp;<span class='caret'></span>
                   </button>
                   <ul class='dropdown-menu pull-right'></ul>
